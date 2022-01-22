@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  app:
+    image: kiwix/kiwix-serve
+    # Restarts the container unless stopped manually
+    restart: unless-stopped
+    command: --library library.xml
+    ports:
+      - "7002:80"
+    volumes:
+      - /mnt/data/kiwix:/data
