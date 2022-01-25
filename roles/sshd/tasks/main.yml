@@ -7,7 +7,4 @@
     owner: root
     group: root
     mode: 0644
-
-- name: Restart sshd
-  become: true
-  ansible.builtin.shell: service ssh restart
+  notify: restart sshd
