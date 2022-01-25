@@ -1,9 +1,6 @@
 ---
 - name: Provision
   hosts: servers
-  vars:
-    ssh_port: 22
-    ssh_user: "vagrant"
 
   tasks:
     - name: Update repositories and upgrade packages
@@ -12,5 +9,6 @@
         update_cache: yes
         name: "*"
         state: latest
+
   roles:
     - sshd
