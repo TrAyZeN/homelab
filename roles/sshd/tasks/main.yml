@@ -1,0 +1,13 @@
+---
+- name: Configure sshd
+  become: true
+  template:
+    src: "sshd_config.j2"
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Restart sshd
+  become: true
+  ansible.builtin.shell: service ssh restart
