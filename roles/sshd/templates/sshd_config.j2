@@ -143,7 +143,7 @@ Subsystem sftp	/usr/lib/openssh/sftp-server
 #	ForceCommand cvs server
 
 # Allow only a specific user to login
-AllowUsers {{ ssh_user }}
+AllowUsers {{ ssh_allowed_user }}
 
 # Restrict key exchange, cipher, and MAC algorithms, as per sshaudit.com
 # hardening guide.
