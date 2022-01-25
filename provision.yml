@@ -1,0 +1,27 @@
+---
+- name: Provision
+  hosts: servers
+  vars:
+    ssh_port: 22
+    ssh_user: "trayzen"
+
+  tasks:
+    - name: Update repositories and upgrade packages
+      become: true
+      apt:
+        update_cache: yes
+        name: "*"
+        state: latest
+
+    - name: Setup ssh
+      become: true
+      template:
+        src: "sshd_config.j2"
+        dest: /etc/ssh/sshd_config
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: Restart ssh
+      become: true
+      ansible.builtin.shell: service ssh restart
