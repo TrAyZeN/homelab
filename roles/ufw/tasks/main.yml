@@ -1,0 +1,83 @@
+---
+- name: Install ufw
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+    name: ufw
+
+- name: Deny all outgoing traffic
+  community.general.ufw:
+    default: deny
+    direction: outgoing
+
+- name: Deny all incoming traffic
+  community.general.ufw:
+    default: deny
+    direction: outgoing
+
+- name: Allow incoming SSH connections
+  community.general.ufw:
+    rule: limit
+    direction: in
+    port: "{{ ssh_port }}"
+    comment: Allow incoming SSH connections
+
+- name: Allow DNS out
+  community.general.ufw:
+    rule: allow
+    direction: out
+    port: '53'
+    comment: Allow DNS out
+
+- name: Allow NTP out
+  community.general.ufw:
+    rule: allow
+    direction: out
+    port: '123'
+    comment: Allow NTP out
+
+- name: Allow HTTP out
+  community.general.ufw:
+    rule: allow
+    direction: out
+    port: http
+    comment: Allow HTTP out
+
+- name: Allow HTTPS out
+  community.general.ufw:
+    rule: allow
+    direction: out
+    port: https
+    comment: Allow HTTPS out
+
+- name: Allow FTP out
+  community.general.ufw:
+    rule: allow
+    direction: out
+    port: ftp
+    comment: Allow FTP out
+
+- name: Allow whois out
+  community.general.ufw:
+    rule: allow
+    direction: out
+    port: whois
+    comment: Allow whois out
+
+- name: Allow DHCP client out
+  community.general.ufw:
+    rule: allow
+    direction: out
+    port: '67'
+    comment: Allow DHCP client out
+
+- name: Allow DHCP server out
+  community.general.ufw:
+    rule: allow
+    direction: out
+    port: '68'
+    comment: Allow DHCP server out
+
+- name: Enable ufw
+  community.general.ufw:
+    state: enabled
