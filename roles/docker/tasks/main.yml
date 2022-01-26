@@ -1,5 +1,5 @@
 ---
-- name: Install packages to allow to use a reposotory over HTTPS
+- name: Install packages to allow to use a repository over HTTPS
   apt:
     update_cache: yes
     cache_valid_time: 3600
