@@ -8,10 +8,16 @@
     group: root
     mode: '0755'
 
-# TODO: Only download if not already downloaded
+- name: Check docker-compose version
+  shell: docker compose version
+  register: check_docker_compose_version
+  ignore_errors: true
+
 - name: Download docker-compose binary
   become: true
   shell: curl -SL https://github.com/docker/compose/releases/download/v2.2.3/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose
+  when: (check_docker_compose_version.rc != 0
+    or not check_docker_compose_version.stdout.endswith("v2.2.3"))
 
 - name: Add execution permission
   become: true
