@@ -2,7 +2,7 @@
 - name: Create docker cli plugins directory
   become: true
   file:
-    path: /usr/local/lib/docker/cli-plugins
+    path: "{{ docker_plugins_dir }}"
     state: directory
     owner: root
     group: root
@@ -13,14 +13,16 @@
   register: check_docker_compose_version
   ignore_errors: true
 
+# Downloads the docker-compose binary if no version of docker-compose is
+# installed or if the wrong version is installed
 - name: Download docker-compose binary
   become: true
-  shell: curl -SL https://github.com/docker/compose/releases/download/v2.2.3/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose
+  shell: "curl -SL {{ docker_compose_binary_url }} -o {{ docker_plugins_dir }}/docker-compose"
   when: (check_docker_compose_version.rc != 0
-    or not check_docker_compose_version.stdout.endswith("v2.2.3"))
+    or not check_docker_compose_version.stdout.endswith(docker_compose_version))
 
 - name: Add execution permission
   become: true
   file:
-    path: /usr/local/lib/docker/cli-plugins/docker-compose
+    path: "{{ docker_plugins_dir }}/docker-compose"
     mode: '0755'
