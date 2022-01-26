@@ -2,9 +2,7 @@
 Install and configure docker.
 
 ## Requirements
-An ubuntu distribution.
-
-TODO: Support debian
+A debian based distribution.
 
 ## Role Variables
 None.
