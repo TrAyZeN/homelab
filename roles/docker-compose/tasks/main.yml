@@ -1,0 +1,20 @@
+---
+- name: Create docker cli plugins directory
+  become: true
+  file:
+    path: /usr/local/lib/docker/cli-plugins
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+# TODO: Only download if not already downloaded
+- name: Download docker-compose binary
+  become: true
+  shell: curl -SL https://github.com/docker/compose/releases/download/v2.2.3/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose
+
+- name: Add execution permission
+  become: true
+  file:
+    path: /usr/local/lib/docker/cli-plugins/docker-compose
+    mode: '0755'

@@ -12,3 +12,4 @@
   roles:
     - sshd
     - { role: docker, become: true }
+    - docker-compose
