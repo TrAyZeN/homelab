@@ -5,7 +5,10 @@ Install and configure docker.
 A debian based distribution.
 
 ## Role Variables
-None.
+| Name               | Type   | Description                                                        |
+|--------------------|--------|--------------------------------------------------------------------|
+| `docker_user`         | string    | Who to add to docker group. (default: `ansible_user_id`) |
+| `docker_repo_urls` | string | Docker repository url.   |
 
 ## Dependencies
 None.
