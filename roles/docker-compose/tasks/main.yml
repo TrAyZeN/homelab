@@ -12,6 +12,7 @@
   command: docker compose version
   register: check_docker_compose_version
   ignore_errors: true
+  changed_when: false
 
 # Downloads the docker-compose binary if no version of docker-compose is
 # installed or if the wrong version is installed
