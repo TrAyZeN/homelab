@@ -17,6 +17,7 @@
 - name: Get docker repository
   shell: echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] {{ docker_repo_url }} stable"
   register: get_docker_repo
+  changed_when: false
 
 - name: Add docker repository
   apt_repository:
