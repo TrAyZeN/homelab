@@ -9,7 +9,7 @@
     mode: '0755'
 
 - name: Check docker-compose version
-  shell: docker compose version
+  command: docker compose version
   register: check_docker_compose_version
   ignore_errors: true
 
@@ -17,7 +17,7 @@
 # installed or if the wrong version is installed
 - name: Download docker-compose binary
   become: true
-  shell: "curl -SL {{ docker_compose_binary_url }} -o {{ docker_plugins_dir }}/docker-compose"
+  command: "curl -SL {{ docker_compose_binary_url }} -o {{ docker_plugins_dir }}/docker-compose"
   when: (check_docker_compose_version.rc != 0
     or not check_docker_compose_version.stdout.endswith(docker_compose_version))
 
