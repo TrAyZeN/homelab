@@ -1,5 +1,6 @@
 ---
 - name: Install packages to allow to use a repository over HTTPS
+  become: true
   apt:
     update_cache: yes
     cache_valid_time: 3600
@@ -10,6 +11,7 @@
       - lsb-release
 
 - name: Add Docker official GPG key
+  become: true
   shell: >
     curl -fsSL https://download.docker.com/linux/debian/gpg |
     sudo gpg --yes --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
@@ -20,11 +22,13 @@
   changed_when: false
 
 - name: Add docker repository
+  become: true
   apt_repository:
     repo: "{{ get_docker_repo.stdout }}"
     state: present
 
 - name: Install docker
+  become: true
   apt:
     update_cache: yes
     pkg:
@@ -33,11 +37,13 @@
       - containerd.io
 
 - name: Create docker group
+  become: true
   group:
     name: docker
     state: present
 
 - name: Add user to docker group
+  become: true
   user:
     name: "{{ docker_user }}"
     groups: docker

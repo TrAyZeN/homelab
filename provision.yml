@@ -11,6 +11,6 @@
 
   roles:
     - sshd
-    - { role: docker, become: true }
+    - docker
     - docker-compose
     - { role: ufw, become: true }
