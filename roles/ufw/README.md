@@ -16,7 +16,7 @@ None.
 ## Role Variables
 | Name               | Type   | Description                                                        |
 |--------------------|--------|--------------------------------------------------------------------|
-| `ssh_port`         | int    | Port number that sshd listens on. (default: 22)                    |
+| `ssh_port`         | int    | Port number that sshd listens on. (default: `ansible_port | default(22)`) |
 
 ## Dependencies
 None.

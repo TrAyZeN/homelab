@@ -1,4 +1,4 @@
 ---
 
-ssh_port: 22
+ssh_port: "{{ ansible_port | default(22) }}"
 ssh_allowed_user: "{{ ansible_user_id }}"

@@ -7,7 +7,7 @@ None.
 ## Role Variables
 | Name               | Type   | Description                                                        |
 |--------------------|--------|--------------------------------------------------------------------|
-| `ssh_port`         | int    | Port number that sshd listens on. (default: 22)                    |
+| `ssh_port`         | int    | Port number that sshd listens on. (default: `ansible_port | default(22)`)    |
 | `ssh_allowed_user` | string | User name of the only user allowed to connect.  (default: `ansible_user_id`) |
 
 ## Dependencies
