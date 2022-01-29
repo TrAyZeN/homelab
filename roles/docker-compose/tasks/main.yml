@@ -18,12 +18,11 @@
 # installed or if the wrong version is installed
 - name: Download docker-compose binary
   become: true
-  command: "curl -SL {{ docker_compose_binary_url }} -o {{ docker_plugins_dir }}/docker-compose"
+  get_url:
+    url: "{{ docker_compose_binary_url }}"
+    dest: "{{ docker_plugins_dir }}/docker-compose"
+    owner: root
+    group: root
+    mode: '0755'
   when: (check_docker_compose_version.rc != 0
     or not check_docker_compose_version.stdout.endswith(docker_compose_version))
-
-- name: Add execution permission
-  become: true
-  file:
-    path: "{{ docker_plugins_dir }}/docker-compose"
-    mode: '0755'
