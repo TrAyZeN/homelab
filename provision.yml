@@ -13,4 +13,4 @@
     - sshd
     - docker
     - docker-compose
-    - { role: ufw, become: true }
+    - ufw

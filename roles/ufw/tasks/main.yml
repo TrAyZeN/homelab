@@ -1,21 +1,25 @@
 ---
 - name: Install ufw
+  become: true
   apt:
     update_cache: yes
     cache_valid_time: 3600
     name: ufw
 
 - name: Deny all outgoing traffic
+  become: true
   community.general.ufw:
     default: deny
     direction: outgoing
 
 - name: Deny all incoming traffic
+  become: true
   community.general.ufw:
     default: deny
     direction: outgoing
 
 - name: Allow incoming SSH connections
+  become: true
   community.general.ufw:
     rule: limit
     direction: in
@@ -23,6 +27,7 @@
     comment: Allow incoming SSH connections
 
 - name: Allow DNS out
+  become: true
   community.general.ufw:
     rule: allow
     direction: out
@@ -30,6 +35,7 @@
     comment: Allow DNS out
 
 - name: Allow NTP out
+  become: true
   community.general.ufw:
     rule: allow
     direction: out
@@ -37,6 +43,7 @@
     comment: Allow NTP out
 
 - name: Allow HTTP out
+  become: true
   community.general.ufw:
     rule: allow
     direction: out
@@ -44,6 +51,7 @@
     comment: Allow HTTP out
 
 - name: Allow HTTPS out
+  become: true
   community.general.ufw:
     rule: allow
     direction: out
@@ -51,6 +59,7 @@
     comment: Allow HTTPS out
 
 - name: Allow FTP out
+  become: true
   community.general.ufw:
     rule: allow
     direction: out
@@ -58,6 +67,7 @@
     comment: Allow FTP out
 
 - name: Allow whois out
+  become: true
   community.general.ufw:
     rule: allow
     direction: out
@@ -65,6 +75,7 @@
     comment: Allow whois out
 
 - name: Allow DHCP client out
+  become: true
   community.general.ufw:
     rule: allow
     direction: out
@@ -72,6 +83,7 @@
     comment: Allow DHCP client out
 
 - name: Allow DHCP server out
+  become: true
   community.general.ufw:
     rule: allow
     direction: out
@@ -79,5 +91,6 @@
     comment: Allow DHCP server out
 
 - name: Enable ufw
+  become: true
   community.general.ufw:
     state: enabled
