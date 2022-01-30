@@ -1,0 +1,56 @@
+version: "3.8"
+
+services:
+  app:
+    image: nextcloud
+    restart: unless-stopped
+    links:
+      - db
+    ports:
+      - "7001:80"
+    volumes:
+      - ./data:/var/www/html
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_DATABASE_FILE=/run/secrets/mysql_database
+      - MYSQL_USER_FILE=/run/secrets/mysql_user
+      - MYSQL_PASSWORD_FILE=/run/secrets/mysql_password
+    depends_on:
+      - db
+    secrets:
+      - mysql_database
+      - mysql_user
+      - mysql_password
+
+  db:
+    image: mariadb
+    restart: unless-stopped
+    command: >
+      --transaction-isolation=READ-COMMITTED
+      --binlog-format=ROW
+      --innodb-read-only-compressed=OFF
+    volumes:
+      - db:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE_FILE=/run/secrets/mysql_database
+      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/mysql_root_password
+      - MYSQL_USER_FILE=/run/secrets/mysql_user
+      - MYSQL_PASSWORD_FILE=/run/secrets/mysql_password
+    secrets:
+      - mysql_database
+      - mysql_root_password
+      - mysql_user
+      - mysql_password
+
+volumes:
+  db:
+
+secrets:
+  mysql_database:
+    file: ./mysql_database.secret
+  mysql_root_password:
+    file: ./mysql_root_password.secret
+  mysql_user:
+    file: ./mysql_user.secret
+  mysql_password:
+    file: ./mysql_password.secret
