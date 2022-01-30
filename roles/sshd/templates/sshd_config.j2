@@ -43,10 +43,10 @@ PermitRootLogin no # Disable root login
 MaxAuthTries 3 # Protect against brute-force attacks
 MaxSessions 2 # Limit number of sessions
 
-PasswordAuthentication yes
+PasswordAuthentication no
 PermitEmptyPasswords no # Accounts should be protected by a password
 
-#PubkeyAuthentication yes
+PubkeyAuthentication yes
 
 # Expect .ssh/authorized_keys2 to be disregarded by default in future.
 #AuthorizedKeysFile	.ssh/authorized_keys .ssh/authorized_keys2
