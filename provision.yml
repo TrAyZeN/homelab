@@ -1,8 +1,13 @@
 ---
 - name: Provision
   hosts: server
+  gather_facts: false
 
   pre_tasks:
+    - name: Gather needed facts
+      setup:
+        gather_subset:
+          - user_id
     - name: Update package index
       become: true
       apt:
