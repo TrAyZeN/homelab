@@ -9,4 +9,4 @@ services:
     ports:
       - "7002:80"
     volumes:
-      - /mnt/data/kiwix:/data
+      - /mnt/data/kiwix:/data:ro
