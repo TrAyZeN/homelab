@@ -22,3 +22,4 @@ IaC
 - nextcloud
 - filebrowser
 - archivebox
+- grafana
