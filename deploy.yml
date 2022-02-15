@@ -1,0 +1,14 @@
+---
+- name: deploy
+  hosts: server
+
+  tasks:
+    - name: Create app directory
+      file:
+        path: "/home/{{ lookup('env', 'HOME') }}/heimdall"
+        state: directory
+
+    - name: Copy docker-compose file
+      copy:
+        src: heimdall/docker-compose.yml
+        dest: "/home/{{ lookup('env', 'HOME') }}/heimdall/docker-compose.yml"
