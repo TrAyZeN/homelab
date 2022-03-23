@@ -3,12 +3,62 @@
   hosts: server
 
   tasks:
-    - name: Create app directory
+    - name: Create heimdall service directory
       file:
-        path: "/home/{{ lookup('env', 'HOME') }}/heimdall"
+        path: "{{ ansible_user_dir }}/heimdall"
         state: directory
 
-    - name: Copy docker-compose file
+    - name: Copy heimdall docker-compose file
       copy:
         src: heimdall/docker-compose.yml
-        dest: "/home/{{ lookup('env', 'HOME') }}/heimdall/docker-compose.yml"
+        dest: "{{ ansible_user_dir }}/heimdall/docker-compose.yml"
+
+    - name: Start heimdall service
+      command:
+        chdir: "{{ ansible_user_dir }}/heimdall"
+        cmd: docker compose up -d
+
+    - name: Create filebrowser service directory
+      file:
+        path: "{{ ansible_user_dir }}/filebrowser"
+        state: directory
+
+    - name: Copy filebrowser docker-compose file
+      copy:
+        src: filebrowser/docker-compose.yml
+        dest: "{{ ansible_user_dir }}/filebrowser/docker-compose.yml"
+
+    - name: Create filebrowser.db
+      file:
+        path: "{{ ansible_user_dir }}/filebrowser/filebrowser.db"
+        state: touch
+
+    - name: Copy filebrowser json configuration file
+      copy:
+        src: filebrowser/.filebrowser.json
+        dest: "{{ ansible_user_dir }}/filebrowser/.filebrowser.json"
+
+    - name: Start filebrowser service
+      command:
+        chdir: "{{ ansible_user_dir }}/filebrowser"
+        cmd: docker compose up -d
+
+    - name: Install Caddy
+      become: true
+      shell:
+        cmd: |
+          apt install -y debian-keyring debian-archive-keyring apt-transport-https &&
+          curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo tee /etc/apt/trusted.gpg.d/caddy-stable.asc &&
+          curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list &&
+          apt update &&
+          apt install caddy
+
+    - name: Copy Caddyfile
+      copy:
+        src: Caddyfile
+        dest: "{{ ansible_user_dir }}/Caddyfile"
+
+    - name: Start caddy
+      become: true
+      command:
+        cmd: caddy reload
