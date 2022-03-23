@@ -18,6 +18,21 @@
         chdir: "{{ ansible_user_dir }}/heimdall"
         cmd: docker compose up -d
 
+    - name: Create kiwix service directory
+      file:
+        path: "{{ ansible_user_dir }}/kiwix"
+        state: directory
+
+    - name: Copy kiwix docker-compose file
+      copy:
+        src: services/kiwix/docker-compose.yml
+        dest: "{{ ansible_user_dir }}/kiwix/docker-compose.yml"
+
+    - name: Start kiwix service
+      command:
+        chdir: "{{ ansible_user_dir }}/kiwix"
+        cmd: docker compose up -d
+
     - name: Create filebrowser service directory
       file:
         path: "{{ ansible_user_dir }}/filebrowser"

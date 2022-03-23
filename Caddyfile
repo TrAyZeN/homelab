@@ -4,6 +4,12 @@ heimdall {
     reverse_proxy localhost:7000
 }
 
+kiwix {
+    tls /home/vagrant/tls/server.cert /home/vagrant/tls/server.key
+
+    reverse_proxy localhost:7002
+}
+
 filebrowser {
     tls /home/vagrant/tls/server.cert /home/vagrant/tls/server.key
 
