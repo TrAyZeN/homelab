@@ -43,6 +43,21 @@
         chdir: "{{ ansible_user_dir }}/filebrowser"
         cmd: docker compose up -d
 
+    - name: Create archivebox service directory
+      file:
+        path: "{{ ansible_user_dir }}/archivebox"
+        state: directory
+
+    - name: Copy archivebox docker-compose file
+      copy:
+        src: services/archivebox/docker-compose.yml
+        dest: "{{ ansible_user_dir }}/archivebox/docker-compose.yml"
+
+    - name: Start archivebox service
+      command:
+        chdir: "{{ ansible_user_dir }}/archivebox"
+        cmd: docker compose up -d
+
     - name: Install Caddy
       become: true
       shell:

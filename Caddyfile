@@ -1,9 +1,17 @@
-https://heimdall {
+heimdall {
     tls /home/vagrant/tls/server.cert /home/vagrant/tls/server.key
 
     reverse_proxy localhost:7000
 }
 
-http://filebrowser {
+filebrowser {
+    tls /home/vagrant/tls/server.cert /home/vagrant/tls/server.key
+
     reverse_proxy localhost:7003
+}
+
+archivebox {
+    tls /home/vagrant/tls/server.cert /home/vagrant/tls/server.key
+
+    reverse_proxy localhost:7004
 }
