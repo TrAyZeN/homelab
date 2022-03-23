@@ -10,7 +10,7 @@
 
     - name: Copy heimdall docker-compose file
       copy:
-        src: heimdall/docker-compose.yml
+        src: services/heimdall/docker-compose.yml
         dest: "{{ ansible_user_dir }}/heimdall/docker-compose.yml"
 
     - name: Start heimdall service
@@ -25,7 +25,7 @@
 
     - name: Copy filebrowser docker-compose file
       copy:
-        src: filebrowser/docker-compose.yml
+        src: services/filebrowser/docker-compose.yml
         dest: "{{ ansible_user_dir }}/filebrowser/docker-compose.yml"
 
     - name: Create filebrowser.db
@@ -35,7 +35,7 @@
 
     - name: Copy filebrowser json configuration file
       copy:
-        src: filebrowser/.filebrowser.json
+        src: services/filebrowser/.filebrowser.json
         dest: "{{ ansible_user_dir }}/filebrowser/.filebrowser.json"
 
     - name: Start filebrowser service
