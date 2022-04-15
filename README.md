@@ -11,10 +11,15 @@ IaC
 - secret management
 - file permissions
 - Add IaC tests
+- wallabag secrets
 
 ## Provisionning requirements
 - a user
 - ssh
+
+```
+ansible-playbook -e "ansible_port=1337" -i ./prod.yml ./provision.yml -K
+```
 
 ## Services
 - Heimdall
@@ -23,3 +28,4 @@ IaC
 - filebrowser
 - archivebox
 - grafana
+- wallabag

@@ -73,6 +73,21 @@
         chdir: "{{ ansible_user_dir }}/archivebox"
         cmd: docker compose up -d
 
+    - name: Create wallabag service directory
+      file:
+        path: "{{ ansible_user_dir }}/wallabag"
+        state: directory
+
+    - name: Copy wallabag docker-compose file
+      copy:
+        src: services/wallabag/docker-compose.yml
+        dest: "{{ ansible_user_dir }}/wallabag/docker-compose.yml"
+
+    - name: Start wallabag service
+      command:
+        chdir: "{{ ansible_user_dir }}/wallabag"
+        cmd: docker compose up -d
+
     - name: Install Caddy
       become: true
       shell:
