@@ -12,6 +12,7 @@ IaC
 - file permissions
 - Add IaC tests
 - wallabag secrets
+- gitea secrets
 
 ## Provisionning requirements
 - a user
