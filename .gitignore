@@ -3,3 +3,5 @@ tags
 /.vagrant
 
 *.log
+
+inventory-prod.yml
