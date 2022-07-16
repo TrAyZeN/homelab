@@ -1,5 +1,0 @@
----
-
-docker_plugins_dir: "/usr/local/lib/docker/cli-plugins"
-docker_compose_version: "v2.2.3"
-docker_compose_binary_url: "https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-linux-x86_64"

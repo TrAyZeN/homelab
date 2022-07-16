@@ -11,11 +11,11 @@
     - name: Update package index
       become: true
       apt:
+        upgrade: yes
         update_cache: yes
         cache_valid_time: 3600
 
   roles:
     - sshd
     - docker
-    - docker-compose
     - ufw
