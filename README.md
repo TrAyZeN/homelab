@@ -16,7 +16,14 @@ I would like to use k3s in the future but I am less comfortable with that tool.
 - [ ] wallabag secrets
 - [ ] gitea secrets
 - [ ] pentesting
-- [ ] firewall with nftable
+- [ ] Firewall with nftables
+  sudo apt install nftables
+  sudo systemctl enable nftables.service
+  sudo systemctl start nftables.service
+  sudo update-alternatives --set iptables /usr/sbin/iptables-nft
+  => Write nftable configuration now
+- [ ] Add resource limit
+- [ ] Test script
 
 ## TODO security
 - [ ] Security scan images
@@ -39,7 +46,7 @@ I would like to use k3s in the future but I am less comfortable with that tool.
 - A ssh server
 
 ```sh
-ansible-playbook -e "ansible_port=<ssh_port>" -i ./prod.yml ./provision.yml -K
+ansible-playbook -e "ansible_port=<ssh_port>" -i inventories/prod.yml provision.yml -K
 ```
 
 ## Development
@@ -52,5 +59,5 @@ vagrant ssh
 
 #### Provisioning
 ```sh
-ansible-playbook --private-key=./.vagrant/machines/host1/virtualbox/private_key -u vagrant -i ./inventory.yml ./provision.yml
+ansible-playbook --private-key=./.vagrant/machines/host1/virtualbox/private_key -u vagrant -i inventories/test.yml provision.yml
 ```

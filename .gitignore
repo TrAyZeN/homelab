@@ -4,4 +4,4 @@ tags
 
 *.log
 
-inventory-prod.yml
+/inventories/prod.yml
