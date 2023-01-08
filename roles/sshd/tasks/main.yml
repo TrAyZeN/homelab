@@ -8,6 +8,7 @@
     group: root
     mode: '0644'
   notify: restart sshd
+
 - name: Create root-owned authorized_keys directory
   become: true
   file:

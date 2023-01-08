@@ -26,6 +26,9 @@ I would like to use k3s in the future but I am less comfortable with that tool.
 - [ ] Test script
 
 ## TODO security
+- [x] Pin image versions
+  - [ ] Pin archivebox image version
+- [ ] Pin image digest
 - [ ] Security scan images
 - [ ] Only use trusted images
 - [ ] Use image hashes

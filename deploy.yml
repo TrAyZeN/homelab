@@ -7,12 +7,10 @@
       file:
         path: "{{ ansible_user_dir }}/heimdall"
         state: directory
-
     - name: Copy heimdall docker-compose file
       copy:
         src: services/heimdall/docker-compose.yml
         dest: "{{ ansible_user_dir }}/heimdall/docker-compose.yml"
-
     - name: Start heimdall service
       command:
         chdir: "{{ ansible_user_dir }}/heimdall"
@@ -22,12 +20,10 @@
       file:
         path: "{{ ansible_user_dir }}/kiwix"
         state: directory
-
     - name: Copy kiwix docker-compose file
       copy:
         src: services/kiwix/docker-compose.yml
         dest: "{{ ansible_user_dir }}/kiwix/docker-compose.yml"
-
     - name: Start kiwix service
       command:
         chdir: "{{ ansible_user_dir }}/kiwix"
@@ -37,22 +33,18 @@
       file:
         path: "{{ ansible_user_dir }}/filebrowser"
         state: directory
-
     - name: Copy filebrowser docker-compose file
       copy:
         src: services/filebrowser/docker-compose.yml
         dest: "{{ ansible_user_dir }}/filebrowser/docker-compose.yml"
-
     - name: Create filebrowser.db
       file:
         path: "{{ ansible_user_dir }}/filebrowser/filebrowser.db"
         state: touch
-
     - name: Copy filebrowser json configuration file
       copy:
         src: services/filebrowser/.filebrowser.json
         dest: "{{ ansible_user_dir }}/filebrowser/.filebrowser.json"
-
     - name: Start filebrowser service
       command:
         chdir: "{{ ansible_user_dir }}/filebrowser"
@@ -62,12 +54,10 @@
       file:
         path: "{{ ansible_user_dir }}/archivebox"
         state: directory
-
     - name: Copy archivebox docker-compose file
       copy:
         src: services/archivebox/docker-compose.yml
         dest: "{{ ansible_user_dir }}/archivebox/docker-compose.yml"
-
     - name: Start archivebox service
       command:
         chdir: "{{ ansible_user_dir }}/archivebox"
@@ -77,12 +67,10 @@
       file:
         path: "{{ ansible_user_dir }}/wallabag"
         state: directory
-
     - name: Copy wallabag docker-compose file
       copy:
         src: services/wallabag/docker-compose.yml
         dest: "{{ ansible_user_dir }}/wallabag/docker-compose.yml"
-
     - name: Start wallabag service
       command:
         chdir: "{{ ansible_user_dir }}/wallabag"
@@ -112,12 +100,10 @@
           curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | tee /etc/apt/sources.list.d/caddy-stable.list &&
           apt update &&
           apt install caddy
-
     - name: Copy Caddyfile
       copy:
         src: Caddyfile
         dest: "{{ ansible_user_dir }}/Caddyfile"
-
     - name: Start caddy
       become: true
       command:

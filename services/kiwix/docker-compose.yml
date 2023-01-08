@@ -1,9 +1,9 @@
+---
 version: "3.8"
 
 services:
   app:
-    image: kiwix/kiwix-serve
-    # Restarts the container unless stopped manually
+    image: kiwix/kiwix-serve:3.4.0
     restart: unless-stopped
     command: --library library.xml
     ports:
