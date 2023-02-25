@@ -35,7 +35,7 @@ I would like to use k3s in the future but I am less comfortable with that tool.
 - [ ] rootless containers
 
 ## Services
-- heimdall
+- flame
 - kiwix
 - nextcloud
 - filebrowser

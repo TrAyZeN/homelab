@@ -3,17 +3,17 @@
   hosts: server
 
   tasks:
-    - name: Create heimdall service directory
+    - name: Create flame service directory
       file:
-        path: "{{ ansible_user_dir }}/heimdall"
+        path: "{{ ansible_user_dir }}/flame"
         state: directory
-    - name: Copy heimdall docker-compose file
+    - name: Copy flame docker-compose file
       copy:
-        src: services/heimdall/docker-compose.yml
-        dest: "{{ ansible_user_dir }}/heimdall/docker-compose.yml"
-    - name: Start heimdall service
+        src: services/flame/docker-compose.yml
+        dest: "{{ ansible_user_dir }}/flame/docker-compose.yml"
+    - name: Start flame service
       command:
-        chdir: "{{ ansible_user_dir }}/heimdall"
+        chdir: "{{ ansible_user_dir }}/flame"
         cmd: docker compose up -d
 
     - name: Create kiwix service directory
