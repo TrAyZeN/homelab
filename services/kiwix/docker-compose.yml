@@ -2,11 +2,12 @@
 version: "3.8"
 
 services:
-  app:
+  kiwix:
+    container_name: kiwix
     image: kiwix/kiwix-serve:3.4.0
     restart: unless-stopped
     command: --library library.xml
     ports:
-      - "7002:80"
+      - "7002:8080"
     volumes:
       - /mnt/data/kiwix:/data:ro
