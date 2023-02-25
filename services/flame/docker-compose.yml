@@ -9,16 +9,13 @@ services:
     restart: unless-stopped
     volumes:
       - ./data:/app/data
-      # - /var/run/docker.sock:/var/run/docker.sock # optional but required for Docker integration
     ports:
       - '7000:5005'
-    # secrets:
-      # - password # optional but required for (1)
     environment:
-      - PASSWORD=flame_password
-      # - PASSWORD_FILE=/run/secrets/password # optional but required for (1)
+      - PASSWORD_FILE=/run/secrets/password
+    secrets:
+      - password
 
-# optional but required for Docker secrets (1)
-# secrets:
-  # password:
-    # file: /path/to/secrets/password
+secrets:
+  password:
+    file: ./password.secret
