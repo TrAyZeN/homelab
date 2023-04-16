@@ -8,6 +8,9 @@
       setup:
         gather_subset:
           - user_id
+    # - name: Print all available facts
+      # debug:
+        # var: ansible_facts
     - name: Update package index
       become: true
       apt:
@@ -19,3 +22,4 @@
     - sshd
     - ufw
     - docker
+    - dnsmasq

@@ -3,3 +3,6 @@ all:
     server:
       hosts:
         192.168.56.12
+      vars:
+        # `ansible_host` could be a hostname, so let's use a different variable
+        host_ip: 192.168.56.12

@@ -26,6 +26,14 @@
     port: "{{ ssh_port }}"
     comment: Allow incoming SSH connections
 
+- name: Allow DNS in
+  become: true
+  community.general.ufw:
+    rule: allow
+    direction: in
+    port: '53'
+    comment: Allow DNS in
+
 - name: Allow DNS out
   become: true
   community.general.ufw:

@@ -1,0 +1,36 @@
+---
+- name: Install dnsmasq
+  become: true
+  apt:
+    update_cache: yes
+    pkg: dnsmasq
+- name: Copy dnsmasq.conf
+  become: true
+  copy:
+    src: dnsmasq.conf
+    dest: /etc/dnsmasq.conf
+    owner: root
+    group: root
+    mode: '0644'
+- name: Copy dnsmasq-resolv.conf
+  become: true
+  copy:
+    src: dnsmasq-resolv.conf
+    dest: /etc/dnsmasq-resolv.conf
+    owner: root
+    group: root
+    mode: '0644'
+- name: Generate dnsmasq-hosts.conf
+  become: true
+  template:
+    src: "dnsmasq-hosts.conf.j2"
+    dest: /etc/dnsmasq-hosts.conf
+    owner: root
+    group: root
+    mode: '0644'
+- name: Enable and restart dnsmasq
+  become: true
+  service:
+    name: dnsmasq
+    enabled: true
+    state: restarted
