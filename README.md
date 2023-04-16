@@ -47,6 +47,7 @@ I would like to use k3s in the future but I am less comfortable with that tool.
 ### Provisionning requirements
 - A user
 - A ssh server
+- `python3-apt`
 
 ```sh
 ansible-playbook -e "ansible_port=<ssh_port>" -i inventories/prod.yml provision.yml -K
