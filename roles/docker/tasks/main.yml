@@ -76,3 +76,10 @@
     mode: '0755'
   when: (check_docker_compose_version.rc != 0
     or not check_docker_compose_version.stdout.endswith(docker_compose_version))
+
+- name: Enable and restart docker daemon
+  become: true
+  service:
+    name: docker
+    enabled: true
+    state: restarted

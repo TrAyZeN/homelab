@@ -17,5 +17,5 @@
 
   roles:
     - sshd
-    - docker
     - ufw
+    - docker
