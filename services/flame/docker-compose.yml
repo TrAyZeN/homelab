@@ -10,7 +10,7 @@ services:
     volumes:
       - ./data:/app/data
     ports:
-      - '7000:5005'
+      - '127.0.0.1:7000:5005'
     environment:
       - PASSWORD_FILE=/run/secrets/password
     secrets:

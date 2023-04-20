@@ -3,6 +3,21 @@
   hosts: server
 
   tasks:
+    - name: Install nginx
+      become: true
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+        name: nginx
+
+    - name: Allow HTTP in
+      become: true
+      community.general.ufw:
+        rule: allow
+        direction: in
+        port: '80'
+        comment: Allow HTTP in
+
     - name: Create flame service directory
       file:
         path: "{{ ansible_user_dir }}/flame"
@@ -15,6 +30,23 @@
       command:
         chdir: "{{ ansible_user_dir }}/flame"
         cmd: docker compose up -d
+    - name: Copy flame nginx site
+      become: true
+      copy:
+        src: services/flame/flame.home
+        dest: /etc/nginx/sites-available/flame.home
+        owner: root
+        group: root
+        mode: '0644'
+    - name: Enable flame nginx site
+      become: true
+      file:
+        src: /etc/nginx/sites-available/flame.home
+        dest: /etc/nginx/sites-enabled/flame.home
+        state: link
+        owner: root
+        group: root
+        mode: '0644'
 
     - name: Create kiwix service directory
       file:
@@ -28,6 +60,23 @@
       command:
         chdir: "{{ ansible_user_dir }}/kiwix"
         cmd: docker compose up -d
+    - name: Copy kiwix nginx site
+      become: true
+      copy:
+        src: services/kiwix/kiwix.home
+        dest: /etc/nginx/sites-available/kiwix.home
+        owner: root
+        group: root
+        mode: '0644'
+    - name: Enable kiwix nginx site
+      become: true
+      file:
+        src: /etc/nginx/sites-available/kiwix.home
+        dest: /etc/nginx/sites-enabled/kiwix.home
+        state: link
+        owner: root
+        group: root
+        mode: '0644'
 
     - name: Create filebrowser service directory
       file:
@@ -49,6 +98,23 @@
       command:
         chdir: "{{ ansible_user_dir }}/filebrowser"
         cmd: docker compose up -d
+    - name: Copy filebrowser nginx site
+      become: true
+      copy:
+        src: services/filebrowser/filebrowser.home
+        dest: /etc/nginx/sites-available/filebrowser.home
+        owner: root
+        group: root
+        mode: '0644'
+    - name: Enable filebrowser nginx site
+      become: true
+      file:
+        src: /etc/nginx/sites-available/filebrowser.home
+        dest: /etc/nginx/sites-enabled/filebrowser.home
+        state: link
+        owner: root
+        group: root
+        mode: '0644'
 
     - name: Create archivebox service directory
       file:
@@ -62,6 +128,23 @@
       command:
         chdir: "{{ ansible_user_dir }}/archivebox"
         cmd: docker compose up -d
+    - name: Copy archivebox nginx site
+      become: true
+      copy:
+        src: services/archivebox/archivebox.home
+        dest: /etc/nginx/sites-available/archivebox.home
+        owner: root
+        group: root
+        mode: '0644'
+    - name: Enable archivebox nginx site
+      become: true
+      file:
+        src: /etc/nginx/sites-available/archivebox.home
+        dest: /etc/nginx/sites-enabled/archivebox.home
+        state: link
+        owner: root
+        group: root
+        mode: '0644'
 
     - name: Create wallabag service directory
       file:
@@ -80,31 +163,87 @@
       file:
         path: "{{ ansible_user_dir }}/gitea"
         state: directory
-
     - name: Copy gitea docker-compose file
       copy:
         src: services/gitea/docker-compose.yml
         dest: "{{ ansible_user_dir }}/gitea/docker-compose.yml"
-
     - name: Start gitea service
       command:
         chdir: "{{ ansible_user_dir }}/gitea"
         cmd: docker compose up -d
-
-    - name: Install Caddy
+    - name: Copy gitea nginx site
       become: true
-      shell:
-        cmd: |
-          apt install -y debian-keyring debian-archive-keyring apt-transport-https &&
-          curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg &&
-          curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | tee /etc/apt/sources.list.d/caddy-stable.list &&
-          apt update &&
-          apt install caddy
-    - name: Copy Caddyfile
       copy:
-        src: Caddyfile
-        dest: "{{ ansible_user_dir }}/Caddyfile"
-    - name: Start caddy
+        src: services/gitea/gitea.home
+        dest: /etc/nginx/sites-available/gitea.home
+        owner: root
+        group: root
+        mode: '0644'
+    - name: Enable gitea nginx site
       become: true
+      file:
+        src: /etc/nginx/sites-available/gitea.home
+        dest: /etc/nginx/sites-enabled/gitea.home
+        state: link
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Create grafana service directory
+      file:
+        path: "{{ ansible_user_dir }}/grafana"
+        state: directory
+    - name: Copy grafana docker-compose file
+      copy:
+        src: services/grafana/docker-compose.yml
+        dest: "{{ ansible_user_dir }}/grafana/docker-compose.yml"
+    - name: Copy prometheus configuration file
+      copy:
+        src: services/grafana/prometheus.yml
+        dest: "{{ ansible_user_dir }}/grafana/prometheus.yml"
+    - name: Start grafana service
       command:
-        cmd: caddy reload
+        chdir: "{{ ansible_user_dir }}/grafana"
+        cmd: docker compose up -d
+    - name: Copy grafana nginx site
+      become: true
+      copy:
+        src: services/grafana/grafana.home
+        dest: /etc/nginx/sites-available/grafana.home
+        owner: root
+        group: root
+        mode: '0644'
+    - name: Enable grafana nginx site
+      become: true
+      file:
+        src: /etc/nginx/sites-available/grafana.home
+        dest: /etc/nginx/sites-enabled/grafana.home
+        state: link
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Enable and restart nginx
+      become: true
+      service:
+        name: nginx
+        enabled: true
+        state: restarted
+
+    # - name: Install Caddy
+      # become: true
+      # shell:
+        # cmd: |
+          # apt install -y debian-keyring debian-archive-keyring apt-transport-https &&
+          # curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | gpg --dearmor --yes -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg &&
+          # curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | tee /etc/apt/sources.list.d/caddy-stable.list &&
+          # apt update &&
+          # apt install caddy
+    # - name: Copy Caddyfile
+      # copy:
+        # src: Caddyfile
+        # dest: "{{ ansible_user_dir }}/Caddyfile"
+    # - name: Start caddy
+      # become: true
+      # command:
+        # cmd: caddy reload

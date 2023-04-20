@@ -8,6 +8,6 @@ services:
     restart: unless-stopped
     command: --library library.xml
     ports:
-      - "7002:8080"
+      - "127.0.0.1:7002:8080"
     volumes:
       - /mnt/data/kiwix:/data:ro
