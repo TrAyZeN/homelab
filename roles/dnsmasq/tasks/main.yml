@@ -4,28 +4,33 @@
   apt:
     update_cache: yes
     pkg: dnsmasq
-- name: Copy configuration
-  become: true
-  copy:
-    src: "{{ item }}"
-    dest: "/etc/{{ item }}"
-    owner: root
-    group: root
-    mode: '0444'  # No Owner write permission, let's try to be stateless
-  loop:
-    - dnsmasq.conf
-    - dnsmasq-resolv.conf
-- name: Generate dnsmasq-hosts.conf
-  become: true
-  template:
-    src: "dnsmasq-hosts.conf.j2"
-    dest: /etc/dnsmasq-hosts.conf
-    owner: root
-    group: root
-    mode: '0444'
-- name: Enable and restart dnsmasq
+
+- name: Configure dnsmasq
+  block:
+    - name: Copy configuration
+      become: true
+      copy:
+        src: "{{ item }}"
+        dest: "/etc/{{ item }}"
+        owner: root
+        group: root
+        mode: '0444'  # No Owner write permission, let's try to be stateless
+      loop:
+        - dnsmasq.conf
+        - dnsmasq-resolv.conf
+
+    - name: Generate dnsmasq-hosts.conf
+      become: true
+      template:
+        src: "dnsmasq-hosts.conf.j2"
+        dest: /etc/dnsmasq-hosts.conf
+        owner: root
+        group: root
+        mode: '0444'
+  notify: Restart dnsmasq
+
+- name: Enable dnsmasq
   become: true
   service:
     name: dnsmasq
     enabled: true
-    state: restarted
