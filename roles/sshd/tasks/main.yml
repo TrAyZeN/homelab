@@ -7,7 +7,7 @@
     owner: root
     group: root
     mode: '0644'
-  notify: restart sshd
+  notify: Restart sshd
 
 - name: Create root-owned authorized_keys directory
   become: true
@@ -17,15 +17,23 @@
     group: root
     state: directory
     mode: '0755'
+
 - name: Add music user
   become: true
   user:
     name: music
     create_home: no
     shell: /usr/sbin/nologin
+
 - name: Add music authorized_keys file
   become: true
   file:
     path: /etc/ssh/authorized_keys/music
     state: touch
     mode: '0644'
+
+- name: Enable sshd
+  become: true
+  service:
+    name: ssh
+    enabled: true
