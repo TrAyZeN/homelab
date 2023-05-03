@@ -10,14 +10,6 @@
         cache_valid_time: 3600
         name: nginx
 
-    - name: Allow HTTP in
-      become: true
-      community.general.ufw:
-        rule: allow
-        direction: in
-        port: '80'
-        comment: Allow HTTP in
-
     - name: Create flame service directory
       file:
         path: "{{ ansible_user_dir }}/flame"
@@ -33,16 +25,16 @@
     - name: Copy flame nginx site
       become: true
       copy:
-        src: services/flame/flame.home
-        dest: /etc/nginx/sites-available/flame.home
+        src: services/flame/flame.home.nginx
+        dest: /etc/nginx/sites-available/flame.home.nginx
         owner: root
         group: root
         mode: '0644'
     - name: Enable flame nginx site
       become: true
       file:
-        src: /etc/nginx/sites-available/flame.home
-        dest: /etc/nginx/sites-enabled/flame.home
+        src: /etc/nginx/sites-available/flame.home.nginx
+        dest: /etc/nginx/sites-enabled/flame.home.nginx
         state: link
         owner: root
         group: root
@@ -63,16 +55,16 @@
     - name: Copy kiwix nginx site
       become: true
       copy:
-        src: services/kiwix/kiwix.home
-        dest: /etc/nginx/sites-available/kiwix.home
+        src: services/kiwix/kiwix.home.nginx
+        dest: /etc/nginx/sites-available/kiwix.home.nginx
         owner: root
         group: root
         mode: '0644'
     - name: Enable kiwix nginx site
       become: true
       file:
-        src: /etc/nginx/sites-available/kiwix.home
-        dest: /etc/nginx/sites-enabled/kiwix.home
+        src: /etc/nginx/sites-available/kiwix.home.nginx
+        dest: /etc/nginx/sites-enabled/kiwix.home.nginx
         state: link
         owner: root
         group: root
@@ -101,16 +93,16 @@
     - name: Copy filebrowser nginx site
       become: true
       copy:
-        src: services/filebrowser/filebrowser.home
-        dest: /etc/nginx/sites-available/filebrowser.home
+        src: services/filebrowser/filebrowser.home.nginx
+        dest: /etc/nginx/sites-available/filebrowser.home.nginx
         owner: root
         group: root
         mode: '0644'
     - name: Enable filebrowser nginx site
       become: true
       file:
-        src: /etc/nginx/sites-available/filebrowser.home
-        dest: /etc/nginx/sites-enabled/filebrowser.home
+        src: /etc/nginx/sites-available/filebrowser.home.nginx
+        dest: /etc/nginx/sites-enabled/filebrowser.home.nginx
         state: link
         owner: root
         group: root
@@ -131,16 +123,16 @@
     - name: Copy archivebox nginx site
       become: true
       copy:
-        src: services/archivebox/archivebox.home
-        dest: /etc/nginx/sites-available/archivebox.home
+        src: services/archivebox/archivebox.home.nginx
+        dest: /etc/nginx/sites-available/archivebox.home.nginx
         owner: root
         group: root
         mode: '0644'
     - name: Enable archivebox nginx site
       become: true
       file:
-        src: /etc/nginx/sites-available/archivebox.home
-        dest: /etc/nginx/sites-enabled/archivebox.home
+        src: /etc/nginx/sites-available/archivebox.home.nginx
+        dest: /etc/nginx/sites-enabled/archivebox.home.nginx
         state: link
         owner: root
         group: root
@@ -174,16 +166,16 @@
     - name: Copy gitea nginx site
       become: true
       copy:
-        src: services/gitea/gitea.home
-        dest: /etc/nginx/sites-available/gitea.home
+        src: services/gitea/gitea.home.nginx
+        dest: /etc/nginx/sites-available/gitea.home.nginx
         owner: root
         group: root
         mode: '0644'
     - name: Enable gitea nginx site
       become: true
       file:
-        src: /etc/nginx/sites-available/gitea.home
-        dest: /etc/nginx/sites-enabled/gitea.home
+        src: /etc/nginx/sites-available/gitea.home.nginx
+        dest: /etc/nginx/sites-enabled/gitea.home.nginx
         state: link
         owner: root
         group: root
@@ -208,16 +200,16 @@
     - name: Copy grafana nginx site
       become: true
       copy:
-        src: services/grafana/grafana.home
-        dest: /etc/nginx/sites-available/grafana.home
+        src: services/grafana/grafana.home.nginx
+        dest: /etc/nginx/sites-available/grafana.home.nginx
         owner: root
         group: root
         mode: '0644'
     - name: Enable grafana nginx site
       become: true
       file:
-        src: /etc/nginx/sites-available/grafana.home
-        dest: /etc/nginx/sites-enabled/grafana.home
+        src: /etc/nginx/sites-available/grafana.home.nginx
+        dest: /etc/nginx/sites-enabled/grafana.home.nginx
         state: link
         owner: root
         group: root
