@@ -34,6 +34,22 @@
     port: '53'
     comment: Allow DNS in
 
+- name: Allow HTTP in
+  become: true
+  community.general.ufw:
+    rule: allow
+    direction: in
+    port: http
+    comment: Allow HTTP in
+
+- name: Allow HTTPS in
+  become: true
+  community.general.ufw:
+    rule: allow
+    direction: in
+    port: https
+    comment: Allow HTTPS in
+
 - name: Allow DNS out
   become: true
   community.general.ufw:
