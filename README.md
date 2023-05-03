@@ -40,6 +40,7 @@ I would like to use k3s in the future but I am less comfortable with that tool.
 - nextcloud
 - filebrowser
 - archivebox
+- gitea
 - grafana
 - wallabag
 

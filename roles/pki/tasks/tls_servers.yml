@@ -23,3 +23,127 @@
         -out /etc/pki/certs/flame.home.crt
         -extensions tls_ext
     creates: /etc/pki/certs/flame.home.crt
+
+- name: Create kiwix TLS server CSR
+  become: true
+  shell:
+    cmd: |
+      SAN=DNS:kiwix.home \
+      openssl req -new \
+        -config /etc/pki/tls-server.cnf \
+        -out /etc/pki/certs/kiwix.home.csr \
+        -keyout /etc/pki/certs/kiwix.home.key
+    stdin: |
+      kiwix.home
+      Home
+    creates: /etc/pki/certs/kiwix.home.csr
+- name: Create kiwix TLS server certificate
+  become: true
+  command:
+    cmd: >
+      openssl ca
+        -batch
+        -config /etc/pki/signing-ca.cnf
+        -in /etc/pki/certs/kiwix.home.csr
+        -out /etc/pki/certs/kiwix.home.crt
+        -extensions tls_ext
+    creates: /etc/pki/certs/kiwix.home.crt
+
+- name: Create filebrowser TLS server CSR
+  become: true
+  shell:
+    cmd: |
+      SAN=DNS:filebrowser.home \
+      openssl req -new \
+        -config /etc/pki/tls-server.cnf \
+        -out /etc/pki/certs/filebrowser.home.csr \
+        -keyout /etc/pki/certs/filebrowser.home.key
+    stdin: |
+      filebrowser.home
+      Home
+    creates: /etc/pki/certs/filebrowser.home.csr
+- name: Create filebrowser TLS server certificate
+  become: true
+  command:
+    cmd: >
+      openssl ca
+        -batch
+        -config /etc/pki/signing-ca.cnf
+        -in /etc/pki/certs/filebrowser.home.csr
+        -out /etc/pki/certs/filebrowser.home.crt
+        -extensions tls_ext
+    creates: /etc/pki/certs/filebrowser.home.crt
+
+- name: Create archivebox TLS server CSR
+  become: true
+  shell:
+    cmd: |
+      SAN=DNS:archivebox.home \
+      openssl req -new \
+        -config /etc/pki/tls-server.cnf \
+        -out /etc/pki/certs/archivebox.home.csr \
+        -keyout /etc/pki/certs/archivebox.home.key
+    stdin: |
+      archivebox.home
+      Home
+    creates: /etc/pki/certs/archivebox.home.csr
+- name: Create archivebox TLS server certificate
+  become: true
+  command:
+    cmd: >
+      openssl ca
+        -batch
+        -config /etc/pki/signing-ca.cnf
+        -in /etc/pki/certs/archivebox.home.csr
+        -out /etc/pki/certs/archivebox.home.crt
+        -extensions tls_ext
+
+- name: Create gitea TLS server CSR
+  become: true
+  shell:
+    cmd: |
+      SAN=DNS:gitea.home \
+      openssl req -new \
+        -config /etc/pki/tls-server.cnf \
+        -out /etc/pki/certs/gitea.home.csr \
+        -keyout /etc/pki/certs/gitea.home.key
+    stdin: |
+      gitea.home
+      Home
+    creates: /etc/pki/certs/gitea.home.csr
+- name: Create gitea TLS server certificate
+  become: true
+  command:
+    cmd: >
+      openssl ca
+        -batch
+        -config /etc/pki/signing-ca.cnf
+        -in /etc/pki/certs/gitea.home.csr
+        -out /etc/pki/certs/gitea.home.crt
+        -extensions tls_ext
+    creates: /etc/pki/certs/gitea.home.crt
+
+- name: Create grafana TLS server CSR
+  become: true
+  shell:
+    cmd: |
+      SAN=DNS:grafana.home \
+      openssl req -new \
+        -config /etc/pki/tls-server.cnf \
+        -out /etc/pki/certs/grafana.home.csr \
+        -keyout /etc/pki/certs/grafana.home.key
+    stdin: |
+      grafana.home
+      Home
+    creates: /etc/pki/certs/grafana.home.csr
+- name: Create grafana TLS server certificate
+  become: true
+  command:
+    cmd: >
+      openssl ca
+        -batch
+        -config /etc/pki/signing-ca.cnf
+        -in /etc/pki/certs/grafana.home.csr
+        -out /etc/pki/certs/grafana.home.crt
+        -extensions tls_ext
+    creates: /etc/pki/certs/grafana.home.crt
