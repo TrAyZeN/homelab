@@ -1,0 +1,142 @@
+---
+- name: Install openssl
+  become: true
+  apt:
+    update_cache: yes
+    pkg: openssl
+
+- name: Create pki directory
+  become: true
+  file:
+    path: /etc/pki
+    owner: root
+    group: root
+    mode: '0755'
+    state: directory
+
+- name: Copy openssl configurations
+  become: true
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/pki/{{ item }}"
+    owner: root
+    group: root
+    mode: '0444'
+  loop:
+    - root-ca.cnf
+    - signing-ca.cnf
+    - tls-server.cnf
+
+- name: Create directories
+  become: true
+  file:
+    path: "{{ item }}"
+    owner: root
+    group: root
+    mode: '0755'
+    state: directory
+  loop:
+    - /etc/pki/ca
+    - /etc/pki/ca/root-ca
+    - /etc/pki/ca/root-ca/db
+    - /etc/pki/ca/signing-ca
+    - /etc/pki/ca/signing-ca/db
+    - /etc/pki/crl
+    - /etc/pki/certs
+
+- name: Create private directories
+  become: true
+  file:
+    path: "{{ item }}"
+    owner: root
+    group: root
+    mode: '0700'
+    state: directory
+  loop:
+    - /etc/pki/ca/root-ca/private
+    - /etc/pki/ca/signing-ca/private
+
+- name: Create databases
+  become: true
+  file:
+    path: "/etc/pki/ca/{{ item.ca }}/db/{{ item.file }}"
+    owner: root
+    group: root
+    mode: '0644'
+    state: touch
+  loop:
+    - ca: root-ca
+      file: root-ca.db
+    - ca: root-ca
+      file: root-ca.db.attr
+    - ca: signing-ca
+      file: signing-ca.db
+    - ca: signing-ca
+      file: signing-ca.db.attr
+
+- name: Create serials
+  become: true
+  copy:
+    content: '01'
+    dest: "/etc/pki/ca/{{ item.ca }}/db/{{ item.file }}"
+    owner: root
+    group: root
+    mode: '0644'
+    force: false # Only copy if not existing
+  loop:
+    - ca: root-ca
+      file: root-ca.crt.srl
+    - ca: root-ca
+      file: root-ca.crl.srl
+    - ca: signing-ca
+      file: signing-ca.crt.srl
+    - ca: signing-ca
+      file: signing-ca.crl.srl
+
+- name: Create root CA CSR
+  become: true
+  command:
+    cmd: >
+      openssl req -new
+        -config /etc/pki/root-ca.cnf
+        -out /etc/pki/ca/root-ca.csr
+        -keyout /etc/pki/ca/root-ca/private/root-ca.key
+    creates: /etc/pki/ca/root-ca.csr
+
+- name: Create root CA certificate
+  become: true
+  command:
+    cmd: >
+      openssl ca -selfsign
+        -batch
+        -config /etc/pki/root-ca.cnf
+        -in /etc/pki/ca/root-ca.csr
+        -out /etc/pki/ca/root-ca.crt
+        -extensions root_ca_ext
+    creates: /etc/pki/ca/root-ca.crt
+
+- name: Create signing CA CSR
+  become: true
+  command:
+    cmd: >
+      openssl req -new
+        -config /etc/pki/signing-ca.cnf
+        -out /etc/pki/ca/signing-ca.csr
+        -keyout /etc/pki/ca/signing-ca/private/signing-ca.key
+    creates: /etc/pki/ca/signing-ca.csr
+
+- name: Create signing CA certificate
+  become: true
+  command:
+    cmd: >
+      openssl ca
+        -batch
+        -config /etc/pki/root-ca.cnf
+        -in /etc/pki/ca/signing-ca.csr
+        -out /etc/pki/ca/signing-ca.crt
+        -extensions signing_ca_ext
+    creates: /etc/pki/ca/signing-ca.crt
+
+- name: Test
+  include_tasks:
+    file: tls_servers.yml

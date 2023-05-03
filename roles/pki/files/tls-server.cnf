@@ -1,0 +1,24 @@
+[ default ]
+SAN = DNS:domain.home
+
+[ req ]
+default_bits       = 4096
+default_md         = sha256
+encrypt_key        = no  # Maybe we want to encrypt key one day
+utf8only           = yes
+string_mask        = utf8only
+prompt             = yes
+distinguished_name = server_dn
+req_extensions     = server_req_ext
+
+[ server_dn ]
+commonName               = "Common Name (eg, FQDN)"
+commonName_max           = 64
+organizationName         = "Organization name"
+organizationName_default = "Home"
+
+[ server_req_ext ]
+keyUsage             = critical, digitalSignature, keyEncipherment
+extendedKeyUsage     = serverAuth, clientAuth
+subjectKeyIdentifier = hash
+subjectAltName       = $ENV::SAN

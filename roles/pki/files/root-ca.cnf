@@ -1,0 +1,66 @@
+[ req ]
+default_bits       = 4096
+default_md         = sha256
+encrypt_key        = no  # Maybe we want to encrypt key one day
+utf8only           = yes
+string_mask        = utf8only
+prompt             = no
+distinguished_name = ca_dn
+req_extensions     = ca_req_ext
+
+[ ca_dn ]
+commonName       = "Home Root CA"
+organizationName = "Home"
+
+[ ca_req_ext ]
+basicConstraints       = critical, CA:true
+keyUsage               = critical, keyCertSign, cRLSign
+subjectKeyIdentifier   = hash
+
+[ ca ]
+default_ca = root_ca
+
+[ root_ca ]
+# Variable definitions for use below
+ca               = root-ca
+dir              = /etc/pki
+
+new_certs_dir    = $dir/ca/$ca
+serial           = $dir/ca/$ca/db/$ca.crt.srl
+crlnumber        = $dir/ca/$ca/db/$ca.crl.srl
+database         = $dir/ca/$ca/db/$ca.db
+
+private_key      = $dir/ca/$ca/private/$ca.key
+certificate      = $dir/ca/$ca.crt
+
+default_md       = sha256
+
+name_opt         = ca_default
+cert_opt         = ca_default
+default_days     = 1000
+unique_subject   = no  # Easier certificate roll-over
+preserve         = no
+email_in_dn      = no
+policy           = match_policy  # DN policy
+copy_extensions  = none # Do not copy extensions from CSR
+default_crl_days = 365
+crl_extensions   = crl_ext
+
+[ match_policy ]
+commonName       = supplied
+organizationName = match
+
+[ root_ca_ext ]
+basicConstraints       = critical, CA:true
+keyUsage               = critical, keyCertSign, cRLSign
+subjectKeyIdentifier   = hash
+authorityKeyIdentifier = keyid:always
+
+[ signing_ca_ext ]
+basicConstraints       = critical, CA:true, pathlen:0
+keyUsage               = critical, keyCertSign, cRLSign
+subjectKeyIdentifier   = hash
+authorityKeyIdentifier = keyid:always
+
+[ crl_ext ]
+authorityKeyIdentifier = keyid:always
