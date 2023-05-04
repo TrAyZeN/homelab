@@ -64,6 +64,8 @@
     group: root
     mode: '0644'
     state: touch
+    modification_time: preserve
+    access_time: preserve
   loop:
     - ca: root-ca
       file: root-ca.db
