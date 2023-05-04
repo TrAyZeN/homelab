@@ -1,0 +1,39 @@
+---
+- name: Install nginx
+  become: true
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+    name: nginx
+
+- name: Configure default site
+  become: true
+  copy:
+    src: default
+    dest: /etc/nginx/sites-available/default
+    owner: root
+    group: root
+    mode: '0444'
+
+- name: Enable default site
+  become: true
+  file:
+    src: /etc/nginx/sites-available/default
+    dest: /etc/nginx/sites-enabled/default
+    state: link
+    owner: root
+    group: root
+    mode: '0444'
+
+- name: Enable nginx
+  become: true
+  service:
+    name: nginx
+    enabled: true
+
+- name: Restart nginx
+  become: true
+  service:
+    name: nginx
+    enabled: true
+    state: restarted

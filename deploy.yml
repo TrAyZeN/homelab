@@ -3,13 +3,6 @@
   hosts: server
 
   tasks:
-    - name: Install nginx
-      become: true
-      apt:
-        update_cache: yes
-        cache_valid_time: 3600
-        name: nginx
-
     - name: Create flame service directory
       file:
         path: "{{ ansible_user_dir }}/flame"

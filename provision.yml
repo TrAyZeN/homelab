@@ -21,6 +21,7 @@
   roles:
     - sshd
     - ufw
-    - docker
     - dnsmasq
     - pki
+    - nginx
+    - docker
