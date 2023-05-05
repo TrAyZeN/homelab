@@ -10,10 +10,10 @@ server {
     # HSTS
     add_header Strict-Transport-Security "max-age=31536000" always;
 
-    # TODO: change
-    resolver 8.8.8.8;
+    resolver 127.0.0.1;
 
     location / {
-        proxy_pass http://localhost:7011;
+        proxy_pass http://127.0.0.1:7011;
+        include proxy_params;
     }
 }
