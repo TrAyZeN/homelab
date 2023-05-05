@@ -22,7 +22,7 @@
         dest: /etc/nginx/sites-available/flame.home.nginx
         owner: root
         group: root
-        mode: '0644'
+        mode: '0444'
     - name: Enable flame nginx site
       become: true
       file:
@@ -31,7 +31,7 @@
         state: link
         owner: root
         group: root
-        mode: '0644'
+        mode: '0444'
 
     - name: Create kiwix service directory
       file:
@@ -52,7 +52,7 @@
         dest: /etc/nginx/sites-available/kiwix.home.nginx
         owner: root
         group: root
-        mode: '0644'
+        mode: '0444'
     - name: Enable kiwix nginx site
       become: true
       file:
@@ -61,7 +61,7 @@
         state: link
         owner: root
         group: root
-        mode: '0644'
+        mode: '0444'
 
     - name: Create filebrowser service directory
       file:
@@ -90,7 +90,7 @@
         dest: /etc/nginx/sites-available/filebrowser.home.nginx
         owner: root
         group: root
-        mode: '0644'
+        mode: '0444'
     - name: Enable filebrowser nginx site
       become: true
       file:
@@ -99,7 +99,7 @@
         state: link
         owner: root
         group: root
-        mode: '0644'
+        mode: '0444'
 
     - name: Create archivebox service directory
       file:
@@ -120,7 +120,7 @@
         dest: /etc/nginx/sites-available/archivebox.home.nginx
         owner: root
         group: root
-        mode: '0644'
+        mode: '0444'
     - name: Enable archivebox nginx site
       become: true
       file:
@@ -129,7 +129,7 @@
         state: link
         owner: root
         group: root
-        mode: '0644'
+        mode: '0444'
 
     - name: Create wallabag service directory
       file:
@@ -163,7 +163,7 @@
         dest: /etc/nginx/sites-available/gitea.home.nginx
         owner: root
         group: root
-        mode: '0644'
+        mode: '0444'
     - name: Enable gitea nginx site
       become: true
       file:
@@ -172,7 +172,7 @@
         state: link
         owner: root
         group: root
-        mode: '0644'
+        mode: '0444'
 
     - name: Create grafana service directory
       file:
@@ -197,7 +197,7 @@
         dest: /etc/nginx/sites-available/grafana.home.nginx
         owner: root
         group: root
-        mode: '0644'
+        mode: '0444'
     - name: Enable grafana nginx site
       become: true
       file:
@@ -206,7 +206,7 @@
         state: link
         owner: root
         group: root
-        mode: '0644'
+        mode: '0444'
 
     - name: Enable and restart nginx
       become: true
