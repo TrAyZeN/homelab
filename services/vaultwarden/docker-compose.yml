@@ -1,0 +1,16 @@
+---
+
+version: '3.6'
+
+services:
+  flame:
+    container_name: vaultwarden
+    image: vaultwarden/server:latest
+    restart: unless-stopped
+    volumes:
+      - data:/data
+    ports:
+      - '127.0.0.1:7015:80'
+
+volumes:
+  data:

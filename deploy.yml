@@ -208,6 +208,36 @@
         group: root
         mode: '0444'
 
+    - name: Create vaultwarden service directory
+      file:
+        path: "{{ ansible_user_dir }}/vaultwarden"
+        state: directory
+    - name: Copy vaultwarden docker-compose file
+      copy:
+        src: services/vaultwarden/docker-compose.yml
+        dest: "{{ ansible_user_dir }}/vaultwarden/docker-compose.yml"
+    - name: Start vaultwarden service
+      command:
+        chdir: "{{ ansible_user_dir }}/vaultwarden"
+        cmd: docker compose up -d
+    - name: Copy vaultwarden nginx site
+      become: true
+      copy:
+        src: services/vaultwarden/vaultwarden.home.nginx
+        dest: /etc/nginx/sites-available/vaultwarden.home.nginx
+        owner: root
+        group: root
+        mode: '0444'
+    - name: Enable vaultwarden nginx site
+      become: true
+      file:
+        src: /etc/nginx/sites-available/vaultwarden.home.nginx
+        dest: /etc/nginx/sites-enabled/vaultwarden.home.nginx
+        state: link
+        owner: root
+        group: root
+        mode: '0444'
+
     - name: Enable and restart nginx
       become: true
       service:
