@@ -3,7 +3,7 @@ version: "3"
 
 services:
   gitea:
-    image: gitea/gitea:1.18.0
+    image: gitea/gitea:1.19.0
     container_name: gitea
     restart: unless-stopped
     environment:
@@ -16,6 +16,7 @@ services:
       - GITEA__database__PASSWD=gitea
     volumes:
       - gitea:/data
+      - ./app.ini:/data/gitea/conf/app.ini
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     networks:

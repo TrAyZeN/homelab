@@ -152,6 +152,10 @@
       copy:
         src: services/gitea/docker-compose.yml
         dest: "{{ ansible_user_dir }}/gitea/docker-compose.yml"
+    - name: Copy app.ini file
+      copy:
+        src: services/gitea/app.ini
+        dest: "{{ ansible_user_dir }}/gitea/app.ini"
     - name: Start gitea service
       command:
         chdir: "{{ ansible_user_dir }}/gitea"
