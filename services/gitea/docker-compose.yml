@@ -35,7 +35,7 @@ services:
       - POSTGRES_PASSWORD=gitea
       - POSTGRES_DB=gitea
     volumes:
-      - db:/var/lib/posgresql/data
+      - db:/var/lib/postgresql/data
     networks:
       - gitea
 
