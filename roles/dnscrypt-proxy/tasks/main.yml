@@ -1,0 +1,79 @@
+---
+- name: Download 2.1.4 release
+  become: true
+  get_url:
+    url: https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/2.1.4/dnscrypt-proxy-linux_x86_64-2.1.4.tar.gz
+    dest: /tmp/dnscrypt-proxy-linux_x86_64-2.1.4.tar.gz
+    owner: root
+    group: root
+    mode: '0444'
+
+- name: Copy 2.1.4 release signature
+  become: true
+  copy:
+    content: |
+      untrusted comment: signature from minisign secret key
+      RUTk1xXqcTODef10bVkpe+aWMm4BuKSz8urXIE8dRM22Bi7G/OBY+VsVJGdpy8ikj5WpItYNTsnxzqrBjP2WTWvQYiM2KcBhoAI=
+      trusted comment: timestamp:1675764927	file:dnscrypt-proxy-linux_x86_64-2.1.4.tar.gz	hashed
+      efBrYfcuAk0fhDF99M8Csi/oegrh5lX3PZ3e4N+11skz8I0v5ysvoMkOatjA+eXeXvvM/ggwKb9ysqcWLW96Bg==
+    dest: /tmp/dnscrypt-proxy-linux_x86_64-2.1.4.tar.gz.minisig
+    owner: root
+    group: root
+    mode: '0444'
+
+- name: Install minisign
+  become: true
+  apt:
+    update_cache: yes
+    pkg: minisign
+
+- name: Verify release
+  command:
+    cmd: minisign -Vm /tmp/dnscrypt-proxy-linux_x86_64-2.1.4.tar.gz -P RWTk1xXqcTODeYttYMCMLo0YJHaFEHn7a3akqHlb/7QvIQXHVPxKbjB5
+
+- name: Extract release
+  become: true
+  unarchive:
+    src: /tmp/dnscrypt-proxy-linux_x86_64-2.1.4.tar.gz
+    dest: /tmp
+    remote_src: yes
+    owner: root
+    group: root
+    mode: '0555'
+
+- name: Copy binary
+  become: true
+  copy:
+    src: /tmp/linux-x86_64/dnscrypt-proxy
+    dest: /usr/local/bin/dnscrypt-proxy
+    remote_src: yes
+    owner: root
+    group: root
+    mode: '0555'
+
+- name: Copy systemd socket
+  become: true
+  copy:
+    src: dnscrypt-proxy.socket
+    dest: /etc/systemd/system/dnscrypt-proxy.socket
+    owner: root
+    group: root
+    mode: '0444'
+
+- name: Copy systemd unit
+  become: true
+  copy:
+    src: dnscrypt-proxy.service
+    dest: /etc/systemd/system/dnscrypt-proxy.service
+    owner: root
+    group: root
+    mode: '0444'
+
+- name: Copy configuration
+  become: true
+  copy:
+    src: dnscrypt-proxy.toml
+    dest: /etc/dnscrypt-proxy/dnscrypt-proxy.toml
+    owner: root
+    group: root
+    mode: '0444'

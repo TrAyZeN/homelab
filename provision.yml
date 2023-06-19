@@ -21,6 +21,7 @@
   roles:
     - sshd
     - ufw
+    - dnscrypt-proxy
     - dnsmasq
     - pki
     - nginx
