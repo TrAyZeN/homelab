@@ -10,14 +10,11 @@
     - name: Copy configuration
       become: true
       copy:
-        src: "{{ item }}"
-        dest: "/etc/{{ item }}"
+        src: "dnsmasq.conf"
+        dest: "/etc/dnsmasq.conf"
         owner: root
         group: root
         mode: '0444'  # No Owner write permission, let's try to be stateless
-      loop:
-        - dnsmasq.conf
-        - dnsmasq-resolv.conf
 
     - name: Generate dnsmasq-hosts.conf
       become: true
@@ -28,6 +25,18 @@
         group: root
         mode: '0444'
   notify: Restart dnsmasq
+
+- name: Modify resolv.conf
+  become: true
+  copy:
+    content: |
+      nameserver ::1
+      nameserver 127.0.0.1
+      options edns0
+    dest: /etc/resolv.conf
+    owner: root
+    group: root
+    mode: '0444'
 
 - name: Enable dnsmasq
   become: true
