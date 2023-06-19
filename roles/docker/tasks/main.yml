@@ -12,9 +12,11 @@
 
 - name: Add Docker official GPG key
   become: true
-  shell: >
-    curl -fsSL https://download.docker.com/linux/debian/gpg |
-    sudo gpg --yes --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+  shell:
+    cmd: >
+      curl -fsSL https://download.docker.com/linux/debian/gpg |
+      sudo gpg --yes --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+    creates: /usr/share/keyrings/docker-archive-keyring.gpg
 
 - name: Get docker repository
   shell: echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] {{ docker_repo_url }} stable"
