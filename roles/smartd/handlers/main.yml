@@ -1,0 +1,7 @@
+---
+- name: Restart smartd service
+  become: true
+  service:
+    name: smartd
+    enabled: true
+    state: restarted

@@ -1,0 +1,25 @@
+---
+- name: Install smartmontools package
+  become: true
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+    pkg:
+      - smartmontools
+
+- name: Copy configuration
+  become: true
+  copy:
+    src: "smartd.conf"
+    dest: "/etc/smartd.conf"
+    owner: root
+    group: root
+    mode: '0444'  # No Owner write permission, let's try to be stateless
+  notify: Restart smartd service
+
+- name: Enable and start smartd service
+  become: true
+  service:
+    name: smartd
+    enabled: true
+    state: started

@@ -26,3 +26,4 @@
     - pki
     - nginx
     - docker
+    - smartd
