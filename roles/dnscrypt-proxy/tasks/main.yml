@@ -1,22 +1,22 @@
 ---
-- name: Download 2.1.4 release
+- name: Download 2.1.5 release
   become: true
   get_url:
-    url: https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/2.1.4/dnscrypt-proxy-linux_x86_64-2.1.4.tar.gz
-    dest: /tmp/dnscrypt-proxy-linux_x86_64-2.1.4.tar.gz
+    url: https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/2.1.5/dnscrypt-proxy-linux_x86_64-2.1.5.tar.gz
+    dest: /tmp/dnscrypt-proxy-linux_x86_64-2.1.5.tar.gz
     owner: root
     group: root
     mode: '0444'
 
-- name: Copy 2.1.4 release signature
+- name: Copy 2.1.5 release signature
   become: true
   copy:
     content: |
       untrusted comment: signature from minisign secret key
-      RUTk1xXqcTODef10bVkpe+aWMm4BuKSz8urXIE8dRM22Bi7G/OBY+VsVJGdpy8ikj5WpItYNTsnxzqrBjP2WTWvQYiM2KcBhoAI=
-      trusted comment: timestamp:1675764927	file:dnscrypt-proxy-linux_x86_64-2.1.4.tar.gz	hashed
-      efBrYfcuAk0fhDF99M8Csi/oegrh5lX3PZ3e4N+11skz8I0v5ysvoMkOatjA+eXeXvvM/ggwKb9ysqcWLW96Bg==
-    dest: /tmp/dnscrypt-proxy-linux_x86_64-2.1.4.tar.gz.minisig
+      RUTk1xXqcTODeciu1DEzQ2tpBPEXRlQVb+rr+qGEji9itFT0H99wZNqARj7hEuUlUeb30Uf95tW299rwKozLv0qVRFQ3Y7vf7ww=
+      trusted comment: timestamp:1691773871	file:dnscrypt-proxy-linux_x86_64-2.1.5.tar.gz	hashed
+      XslsI10/7nF4hW21kNSs7bzEJLUN20sRh/YerwiEKXeryJ2rXiAbpmzsSjv0YIKw+z7Q6JnbBVvTEnRZ6NvDCg==
+    dest: /tmp/dnscrypt-proxy-linux_x86_64-2.1.5.tar.gz.minisig
     owner: root
     group: root
     mode: '0444'
@@ -29,12 +29,12 @@
 
 - name: Verify release
   command:
-    cmd: minisign -Vm /tmp/dnscrypt-proxy-linux_x86_64-2.1.4.tar.gz -P RWTk1xXqcTODeYttYMCMLo0YJHaFEHn7a3akqHlb/7QvIQXHVPxKbjB5
+    cmd: minisign -Vm /tmp/dnscrypt-proxy-linux_x86_64-2.1.5.tar.gz -P RWTk1xXqcTODeYttYMCMLo0YJHaFEHn7a3akqHlb/7QvIQXHVPxKbjB5
 
 - name: Extract release
   become: true
   unarchive:
-    src: /tmp/dnscrypt-proxy-linux_x86_64-2.1.4.tar.gz
+    src: /tmp/dnscrypt-proxy-linux_x86_64-2.1.5.tar.gz
     dest: /tmp
     remote_src: yes
     owner: root
@@ -65,6 +65,15 @@
   copy:
     src: dnscrypt-proxy.service
     dest: /etc/systemd/system/dnscrypt-proxy.service
+    owner: root
+    group: root
+    mode: '0444'
+
+- name: Create configuration directory
+  become: true
+  file:
+    path: /etc/dnscrypt-proxy
+    state: directory
     owner: root
     group: root
     mode: '0444'
