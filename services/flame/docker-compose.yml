@@ -5,7 +5,7 @@ version: '3.6'
 services:
   flame:
     container_name: flame
-    image: pawelmalak/flame:2.3.0
+    image: pawelmalak/flame:2.3.1
     restart: unless-stopped
     volumes:
       - ./data:/app/data
