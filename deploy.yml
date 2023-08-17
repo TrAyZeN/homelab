@@ -242,6 +242,40 @@
         group: root
         mode: '0444'
 
+    - name: Create immich service directory
+      file:
+        path: "{{ ansible_user_dir }}/immich"
+        state: directory
+    - name: Copy immich docker-compose file
+      copy:
+        src: services/immich/docker-compose.yml
+        dest: "{{ ansible_user_dir }}/immich/docker-compose.yml"
+    - name: Copy immich .env file
+      copy:
+        src: services/immich/.env
+        dest: "{{ ansible_user_dir }}/immich/.env"
+    - name: Start immich service
+      command:
+        chdir: "{{ ansible_user_dir }}/immich"
+        cmd: docker compose up -d
+    - name: Copy immich nginx site
+      become: true
+      copy:
+        src: services/immich/immich.home.nginx
+        dest: /etc/nginx/sites-available/immich.home.nginx
+        owner: root
+        group: root
+        mode: '0444'
+    - name: Enable immich nginx site
+      become: true
+      file:
+        src: /etc/nginx/sites-available/immich.home.nginx
+        dest: /etc/nginx/sites-enabled/immich.home.nginx
+        state: link
+        owner: root
+        group: root
+        mode: '0444'
+
     - name: Enable and restart nginx
       become: true
       service:
