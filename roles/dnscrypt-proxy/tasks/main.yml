@@ -87,10 +87,10 @@
     owner: root
     group: root
     mode: '0444'
-  notify: Restart dnscrypt-proxy
+  notify: Restart dnscrypt-proxy service
 
 - name: Enable dnscrypt-proxy
   become: true
   service:
-    name: dnsmasq
+    name: dnscrypt-proxy
     enabled: true

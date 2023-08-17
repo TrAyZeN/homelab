@@ -1,7 +1,7 @@
 ---
-- name: Restart dnscrypt-proxy
+- name: Restart dnscrypt-proxy service
   become: true
   service:
-    name: smartd
+    name: dnscrypt-proxy
     enabled: true
     state: restarted
