@@ -1,9 +1,15 @@
 ---
 version: '3'
 
+# https://grafana.com/docs/grafana-cloud/quickstart/docker-compose-linux/
+# https://github.com/prometheus/node_exporter
+
+# docker network inspect <network name>
+# https://docs.docker.com/engine/tutorials/networkingcontainers/
+
 services:
   grafana:
-    image: grafana/grafana:9.3.1
+    image: grafana/grafana:10.1.0
     container_name: grafana
     restart: unless-stopped
     depends_on:
@@ -11,34 +17,56 @@ services:
     ports:
       - "127.0.0.1:7009:3000"
     volumes:
-      - grafana-data:/var/lib/grafana
+      - grafana_data:/var/lib/grafana
+    networks:
+      # The default network is useless now
+      - default
+      - monitoring
 
   prometheus:
-    image: prom/prometheus:v2.41.0
+    image: prom/prometheus:v2.46.0
     container_name: prometheus
     restart: unless-stopped
     depends_on:
       - node_exporter
-    ports:
-      - "9090:9090"
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    expose:
+      - "9090"
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
-      - prometheus-data:/prometheus
+      - prometheus_data:/prometheus
+    networks:
+      - monitoring
 
   node_exporter:
-    # image: quay.io/prometheus/node-exporter:latest
-    image: prom/node-exporter:v1.5.0
-    container_name: node_exporter
+    image: prom/node-exporter:v1.6.1
+    container_name: node-exporter
     restart: unless-stopped
     pid: host
     # network_mode: host
     command:
       - '--path.rootfs=/host'
-    ports:
-      - "9100:9100"
+        # For the Node exporter full grafana dashboard
+        # https://grafana.com/grafana/dashboards/1860-node-exporter-full/
+        # - '--collector.systemd'
+        # - '--collector.processes'
+    expose:
+      - "9100"
     volumes:
       - '/:/host:ro,rslave'
+    networks:
+      - monitoring
 
 volumes:
-  grafana-data:
-  prometheus-data:
+  grafana_data:
+  prometheus_data:
+
+networks:
+  monitoring:
+    driver: bridge
+    external: false
