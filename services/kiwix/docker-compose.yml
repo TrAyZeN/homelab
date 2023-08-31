@@ -4,7 +4,7 @@ version: "3.8"
 services:
   kiwix:
     container_name: kiwix
-    image: kiwix/kiwix-serve:3.4.0
+    image: ghcr.io/kiwix/kiwix-serve:3.5.0
     restart: unless-stopped
     command: --library library.xml
     ports:
