@@ -1,57 +1,35 @@
-# My Homelab
+<h1 align="center">
+    Homelab
+</h1>
 
-IaC
-
-For now I use ansible to provision my server and docker-compose for containers.
-I would like to use k3s in the future but I am less comfortable with that tool.
-
-## TODO
-- [x] Add playbook to launch services
-- [ ] security updates
-- [ ] watchtower ?
-- [ ] setup fail2ban
-- [ ] secret management
-- [ ] file permissions
-- [ ] Add IaC tests
-- [ ] wallabag secrets
-- [ ] gitea secrets
-- [ ] pentesting
-- [ ] Firewall with nftables
-  sudo apt install nftables
-  sudo systemctl enable nftables.service
-  sudo systemctl start nftables.service
-  sudo update-alternatives --set iptables /usr/sbin/iptables-nft
-  => Write nftable configuration now
-- [ ] Add resource limit
-- [ ] Test script
-
-## TODO security
-- [x] Pin image versions
-  - [ ] Pin archivebox image version
-- [ ] Pin image digest
-- [ ] Security scan images
-- [ ] Only use trusted images
-- [ ] Use image hashes
-- [ ] rootless containers
+This repository contains provisioning scripts and service configurations for my
+homelab.
 
 ## Services
 - flame
 - kiwix
-- nextcloud
 - filebrowser
 - archivebox
+- wallabag
 - gitea
 - grafana
-- wallabag
+- vaultwarden
+- immich
 
-## Deployment
-### Provisionning requirements
+## Usage
+### Provisionning
+Requirements:
 - A user
-- A ssh server
+- An ssh server
 - `python3-apt`
 
 ```sh
-ansible-playbook -e "ansible_port=<ssh_port>" -i inventories/prod.yml provision.yml -K
+ansible-playbook -e "ansible_port=<ssh_port>" -i inventories/prod.yml -K provision.yml
+```
+
+### Deployment
+```sh
+ansible-playbook -e "ansible_port=<ssh_port>" -i inventories/prod.yml -K deploy.yml
 ```
 
 ## Development
@@ -66,3 +44,9 @@ vagrant ssh
 ```sh
 ansible-playbook --private-key=./.vagrant/machines/host1/virtualbox/private_key -u vagrant -i inventories/test.yml provision.yml
 ```
+
+## Future
+For now ansible is used to provision the server and docker-compose to describe
+and run services. An idea would be to migrate to k3s but I am less comfortable
+with that tool. Proxmox is another idea to try for added security but at the
+expense of the performance.
