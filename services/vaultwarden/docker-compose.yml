@@ -7,6 +7,7 @@ services:
     container_name: vaultwarden
     image: vaultwarden/server:latest
     restart: unless-stopped
+    user: '65534:65534' # nobody
     volumes:
       - data:/data
     ports:
