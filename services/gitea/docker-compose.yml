@@ -30,6 +30,7 @@ services:
   db:
     image: postgres:15.3-alpine
     restart: unless-stopped
+    user: 'postgres:postgres'
     environment:
       - POSTGRES_USER=gitea
       - POSTGRES_PASSWORD=gitea
