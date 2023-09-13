@@ -5,16 +5,22 @@ version: '3.6'
 services:
   flame:
     container_name: flame
-    image: pawelmalak/flame:2.3.1
+    image: flame-nonroot:2.3.1
+    build: .
     restart: unless-stopped
+    user: '1000:1000'
     volumes:
-      - ./data:/app/data
+      - data:/app/data
     ports:
       - '127.0.0.1:7000:5005'
     environment:
       - PASSWORD_FILE=/run/secrets/password
     secrets:
       - password
+
+# volume is needed for non root user
+volumes:
+  data:
 
 secrets:
   password:
