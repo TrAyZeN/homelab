@@ -7,6 +7,10 @@
       file:
         path: "{{ ansible_user_dir }}/flame"
         state: directory
+    - name: Copy non root flame Dockerfile
+      copy:
+        src: services/flame/Dockerfile
+        dest: "{{ ansible_user_dir }}/flame/Dockerfile"
     - name: Copy flame docker-compose file
       copy:
         src: services/flame/docker-compose.yml
