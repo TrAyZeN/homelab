@@ -1,0 +1,14 @@
+name: CI
+on:
+  - push
+
+jobs:
+  nginx-static-analysis:
+    name: Nginx config static analysis
+    runs-on: ubuntu-latest
+    container:
+      image: yandex/gixy:latest
+      volumes:
+        - services:/services
+    steps:
+      - run: gixy /services/*/*.nginx
