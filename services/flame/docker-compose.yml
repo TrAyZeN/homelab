@@ -17,6 +17,10 @@ services:
       - PASSWORD_FILE=/run/secrets/password
     secrets:
       - password
+    deploy:
+      resources:
+        limits:
+          memory: 250M
 
 # volume is needed for non root user
 volumes:
