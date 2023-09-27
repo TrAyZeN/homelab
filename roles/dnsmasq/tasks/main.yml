@@ -24,7 +24,7 @@
         owner: root
         group: root
         mode: '0444'
-  notify: Restart dnsmasq
+  notify: Restart dnsmasq service
 
 - name: Modify resolv.conf
   become: true

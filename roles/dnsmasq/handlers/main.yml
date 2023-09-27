@@ -1,5 +1,5 @@
 ---
-- name: Restart dnsmasq
+- name: Restart dnsmasq service
   become: true
   service:
     name: dnsmasq

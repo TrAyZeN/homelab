@@ -9,7 +9,7 @@ version: '3'
 
 services:
   grafana:
-    image: grafana/grafana:10.1.0
+    image: grafana/grafana:10.1.2
     container_name: grafana
     restart: unless-stopped
     depends_on:
@@ -24,7 +24,7 @@ services:
       - monitoring
 
   prometheus:
-    image: prom/prometheus:v2.46.0
+    image: prom/prometheus:v2.47.0
     container_name: prometheus
     restart: unless-stopped
     depends_on:
