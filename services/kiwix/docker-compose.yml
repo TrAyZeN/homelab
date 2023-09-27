@@ -7,6 +7,7 @@ services:
     image: ghcr.io/kiwix/kiwix-serve:3.5.0
     restart: unless-stopped
     command: --library library.xml
+    user: '65534:65534' # nobody
     ports:
       - "127.0.0.1:7002:8080"
     volumes:
