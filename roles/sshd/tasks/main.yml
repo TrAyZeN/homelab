@@ -1,12 +1,23 @@
 ---
+- name: Copy default sshd configuration
+  become: true
+  copy:
+    src: /usr/share/openssh/sshd_config
+    dest: /etc/ssh/sshd_config
+    remote_src: true
+    owner: root
+    group: root
+    mode: '0400'
+  notify: Restart sshd
+
 - name: Configure sshd
   become: true
   template:
-    src: "sshd_config.j2"
-    dest: /etc/ssh/sshd_config
+    src: sshd_config.j2
+    dest: /etc/ssh/sshd_config.d/override_sshd_config.conf
     owner: root
     group: root
-    mode: '0644'
+    mode: '0400'
   notify: Restart sshd
 
 - name: Create root-owned authorized_keys directory

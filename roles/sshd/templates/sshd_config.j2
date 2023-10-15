@@ -12,8 +12,6 @@
 # https://github.com/imthenachoman/How-To-Secure-A-Linux-Server#secure-etcsshsshd_config
 # https://www.putorius.net/how-to-secure-ssh-daemon.html
 
-Include /etc/ssh/sshd_config.d/*.conf
-
 Port {{ ssh_port }} # Change SSH port
 
 # Only use the newer, more secure version of SSH
@@ -133,8 +131,10 @@ ClientAliveCountMax 0
 # Allow client to pass locale environment variables
 AcceptEnv LANG LC_*
 
+# WARN: Commented because subsystems cannot be defined multiple times and
+# default config already defines it.
 # override default of no subsystems
-Subsystem sftp /usr/lib/openssh/sftp-server
+# Subsystem sftp /usr/lib/openssh/sftp-server
 
 # Allow only a specific user to login
 AllowUsers {{ ssh_allowed_user }} music
