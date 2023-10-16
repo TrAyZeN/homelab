@@ -6,7 +6,16 @@
     cache_valid_time: 3600
     name: nginx
 
-- name: Configure default site
+- name: Configure nginx
+  become: true
+  copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: '0444'
+
+- name: Configure default site to redirect to HTTPS
   become: true
   copy:
     src: default
