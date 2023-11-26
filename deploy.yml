@@ -182,6 +182,40 @@
         group: root
         mode: '0444'
 
+    - name: Create forgejo service directory
+      file:
+        path: "{{ ansible_user_dir }}/forgejo"
+        state: directory
+    - name: Copy forgejo docker-compose file
+      copy:
+        src: services/forgejo/docker-compose.yml
+        dest: "{{ ansible_user_dir }}/forgejo/docker-compose.yml"
+    - name: Copy app.ini file
+      copy:
+        src: services/forgejo/app.ini
+        dest: "{{ ansible_user_dir }}/forgejo/app.ini"
+    - name: Start forgejo service
+      command:
+        chdir: "{{ ansible_user_dir }}/forgejo"
+        cmd: docker compose up -d
+    - name: Copy forgejo nginx site
+      become: true
+      copy:
+        src: services/forgejo/forgejo.home.nginx
+        dest: /etc/nginx/sites-available/forgejo.home.nginx
+        owner: root
+        group: root
+        mode: '0444'
+    - name: Enable forgejo nginx site
+      become: true
+      file:
+        src: /etc/nginx/sites-available/forgejo.home.nginx
+        dest: /etc/nginx/sites-enabled/forgejo.home.nginx
+        state: link
+        owner: root
+        group: root
+        mode: '0444'
+
     - name: Create grafana service directory
       file:
         path: "{{ ansible_user_dir }}/grafana"
