@@ -3,15 +3,18 @@
 version: '3.6'
 
 services:
-  flame:
+  vaultwarden:
     container_name: vaultwarden
     image: vaultwarden/server:latest
     restart: unless-stopped
-    user: '65534:65534' # nobody
+    # Doesn't work, database is not readable
+    # user: '65534:65534' # nobody
     volumes:
       - data:/data
     ports:
       - '127.0.0.1:7015:80'
+    environment:
+      DOMAIN: "https://vaultwarden.home"
 
 volumes:
   data:
