@@ -1,15 +1,21 @@
 ---
 version: "3.8"
 
+name: immich
+
 services:
   immich-server:
     container_name: immich_server
     image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
     command: [ "start.sh", "immich" ]
+    # user: '1000:1000'
     volumes:
       - ${UPLOAD_LOCATION}:/usr/src/app/upload
+      - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
+    ports:
+      - '127.0.0.1:7020:3001'
     depends_on:
       - redis
       - database
@@ -25,8 +31,10 @@ services:
     #   file: hwaccel.yml
     #   service: hwaccel
     command: [ "start.sh", "microservices" ]
+    # user: '1000:1000'
     volumes:
       - ${UPLOAD_LOCATION}:/usr/src/app/upload
+      - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
     depends_on:
@@ -46,19 +54,14 @@ services:
       - .env
     restart: always
 
-  immich-web:
-    container_name: immich_web
-    image: ghcr.io/immich-app/immich-web:${IMMICH_VERSION:-release}
-    env_file:
-      - .env
-    restart: always
-
   typesense:
     container_name: immich_typesense
     image: typesense/typesense:0.24.1@sha256:9bcff2b829f12074426ca044b56160ca9d777a0c488303469143dd9f8259d4dd
     environment:
       - TYPESENSE_API_KEY=${TYPESENSE_API_KEY}
       - TYPESENSE_DATA_DIR=/data
+      # remove this to get debug messages
+      - GLOG_minloglevel=1
     volumes:
       - tsdata:/data
     restart: always
@@ -71,7 +74,7 @@ services:
   database:
     container_name: immich_postgres
     image: postgres:14-alpine@sha256:28407a9961e76f2d285dc6991e8e48893503cc3836a4755bbc2d40bcc272a441
-    user: "postgres:postgres"
+    user: "70:70" # postgres
     env_file:
       - .env
     environment:
@@ -83,20 +86,6 @@ services:
     restart: always
     secrets:
       - db_password
-
-  immich-proxy:
-    container_name: immich_proxy
-    image: ghcr.io/immich-app/immich-proxy:${IMMICH_VERSION:-release}
-    environment:
-      # Make sure these values get passed through from the env file
-      - IMMICH_SERVER_URL
-      - IMMICH_WEB_URL
-    ports:
-      - '127.0.0.1:7020:8080'
-    depends_on:
-      - immich-server
-      - immich-web
-    restart: always
 
 volumes:
   pgdata:
