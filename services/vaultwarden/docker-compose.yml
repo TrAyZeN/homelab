@@ -12,7 +12,7 @@ services:
     volumes:
       - data:/data
     ports:
-      - '127.0.0.1:7015:80'
+      - '127.0.0.1:7005:80'
     environment:
       DOMAIN: "https://vaultwarden.home"
 

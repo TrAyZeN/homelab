@@ -4,11 +4,11 @@ version: "3.8"
 services:
   kiwix:
     container_name: kiwix
-    image: ghcr.io/kiwix/kiwix-serve:3.5.0
+    image: ghcr.io/kiwix/kiwix-serve:3.6.0
     restart: unless-stopped
     command: --library library.xml
     user: '65534:65534' # nobody
     ports:
-      - "127.0.0.1:7002:8080"
+      - "127.0.0.1:7001:8080"
     volumes:
       - /mnt/data/kiwix:/data:ro

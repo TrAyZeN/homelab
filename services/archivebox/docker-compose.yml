@@ -7,7 +7,7 @@ services:
         command: server --quick-init 0.0.0.0:8000
         restart: unless-stopped
         ports:
-          - "127.0.0.1:7004:8000"
+          - "127.0.0.1:7003:8000"
         environment:
             - ALLOWED_HOSTS=*                   # add any config options you want as env vars
             - MEDIA_MAX_SIZE=750m

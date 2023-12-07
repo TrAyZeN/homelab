@@ -20,7 +20,7 @@ services:
       - SYMFONY__ENV__DOMAIN_NAME=http://192.168.56.12:7010
       - SYMFONY__ENV__SERVER_NAME="Read it later"
     ports:
-      - "7010:80"
+      - "127.0.0.1:7010:80"
     volumes:
       - ./images:/var/www/wallabag/web/assets/images
     healthcheck:
