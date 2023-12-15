@@ -314,27 +314,43 @@
         group: root
         mode: '0444'
 
+    # - name: Create tandoor service directory
+      # file:
+        # path: "{{ ansible_user_dir }}/tandoor"
+        # state: directory
+    # - name: Copy tandoor docker-compose file
+      # copy:
+        # src: services/tandoor/docker-compose.yml
+        # dest: "{{ ansible_user_dir }}/tandoor/docker-compose.yml"
+    # - name: Copy tandoor .env file
+      # copy:
+        # src: services/tandoor/.env
+        # dest: "{{ ansible_user_dir }}/tandoor/.env"
+    # - name: Start tandoor service
+      # command:
+        # chdir: "{{ ansible_user_dir }}/tandoor"
+        # cmd: docker compose up -d
+    # - name: Copy tandoor nginx site
+      # become: true
+      # copy:
+        # src: services/tandoor/tandoor.home.nginx
+        # dest: /etc/nginx/sites-available/tandoor.home.nginx
+        # owner: root
+        # group: root
+        # mode: '0444'
+    # - name: Enable tandoor nginx site
+      # become: true
+      # file:
+        # src: /etc/nginx/sites-available/tandoor.home.nginx
+        # dest: /etc/nginx/sites-enabled/tandoor.home.nginx
+        # state: link
+        # owner: root
+        # group: root
+        # mode: '0444'
+
     - name: Enable and restart nginx
       become: true
       service:
         name: nginx
         enabled: true
         state: restarted
-
-    # - name: Install Caddy
-      # become: true
-      # shell:
-        # cmd: |
-          # apt install -y debian-keyring debian-archive-keyring apt-transport-https &&
-          # curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | gpg --dearmor --yes -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg &&
-          # curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | tee /etc/apt/sources.list.d/caddy-stable.list &&
-          # apt update &&
-          # apt install caddy
-    # - name: Copy Caddyfile
-      # copy:
-        # src: Caddyfile
-        # dest: "{{ ansible_user_dir }}/Caddyfile"
-    # - name: Start caddy
-      # become: true
-      # command:
-        # cmd: caddy reload
