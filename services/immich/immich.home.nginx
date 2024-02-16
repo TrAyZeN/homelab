@@ -14,7 +14,7 @@ server {
 
     # Increase the maximum request size as we want to upload media.
     # If the request size exceeds this limit a 413 is returned.
-    client_max_body_size 100m;
+    client_max_body_size 1g;
 
     location / {
         proxy_pass http://127.0.0.1:7006;
