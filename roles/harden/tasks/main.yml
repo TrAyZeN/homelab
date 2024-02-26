@@ -1,0 +1,13 @@
+---
+- name: Copy hardened sysctl configuration
+  become: true
+  copy:
+    src: "90-harden.conf"
+    dest: "/etc/sysctl.d/90-harden.conf"
+    owner: root
+    group: root
+    mode: '0444'  # No Owner write permission, let's try to be stateless
+
+- name: Load sysctl configuration
+  become: true
+  command: sysctl -p /etc/sysctl.d/90-harden.conf
