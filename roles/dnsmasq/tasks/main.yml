@@ -26,7 +26,22 @@
         mode: '0444'
   notify: Restart dnsmasq service
 
-- name: Modify resolv.conf
+- name: Prevent dhclient from updating resolv.conf
+  become: true
+  copy:
+    content: |
+      #!/bin/sh
+
+      # https://wiki.debian.org/resolv.conf
+      make_resolv_conf() {
+          :
+      }
+    dest: /etc/dhcp/dhclient-enter-hooks.d/no_update_resolv_conf
+    owner: root
+    group: root
+    mode: '0544'
+
+- name: Configure resolv.conf to use dnsmasq DNS
   become: true
   copy:
     content: |
