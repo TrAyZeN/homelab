@@ -45,8 +45,8 @@
   become: true
   copy:
     content: |
-      nameserver ::1
       nameserver 127.0.0.1
+      nameserver ::1
       options edns0
     dest: /etc/resolv.conf
     owner: root
