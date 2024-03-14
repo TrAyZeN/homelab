@@ -148,40 +148,6 @@
         chdir: "{{ ansible_user_dir }}/wallabag"
         cmd: docker compose up -d
 
-    - name: Create gitea service directory
-      file:
-        path: "{{ ansible_user_dir }}/gitea"
-        state: directory
-    - name: Copy gitea docker-compose file
-      copy:
-        src: services/gitea/docker-compose.yml
-        dest: "{{ ansible_user_dir }}/gitea/docker-compose.yml"
-    - name: Copy app.ini file
-      copy:
-        src: services/gitea/app.ini
-        dest: "{{ ansible_user_dir }}/gitea/app.ini"
-    - name: Start gitea service
-      command:
-        chdir: "{{ ansible_user_dir }}/gitea"
-        cmd: docker compose up -d
-    - name: Copy gitea nginx site
-      become: true
-      copy:
-        src: services/gitea/gitea.home.nginx
-        dest: /etc/nginx/sites-available/gitea.home.nginx
-        owner: root
-        group: root
-        mode: '0444'
-    - name: Enable gitea nginx site
-      become: true
-      file:
-        src: /etc/nginx/sites-available/gitea.home.nginx
-        dest: /etc/nginx/sites-enabled/gitea.home.nginx
-        state: link
-        owner: root
-        group: root
-        mode: '0444'
-
     - name: Create forgejo service directory
       file:
         path: "{{ ansible_user_dir }}/forgejo"

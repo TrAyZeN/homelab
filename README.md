@@ -11,7 +11,7 @@ homelab.
 - filebrowser
 - archivebox
 - wallabag
-- gitea
+- forgejo
 - grafana
 - vaultwarden
 - immich
