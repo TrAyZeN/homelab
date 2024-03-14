@@ -1,4 +1,5 @@
 ---
+
 - name: Copy hardened sysctl configuration
   become: true
   copy:
@@ -6,8 +7,30 @@
     dest: "/etc/sysctl.d/90-harden.conf"
     owner: root
     group: root
-    mode: '0444'  # No Owner write permission, let's try to be stateless
+    mode: '0400'
 
-- name: Load sysctl configuration
+- name: Load hardened sysctl configuration
   become: true
   command: sysctl -p /etc/sysctl.d/90-harden.conf
+
+- name: Copy hardened sysctl network configuration
+  become: true
+  copy:
+    src: "90-harden-network.conf"
+    dest: "/etc/sysctl.d/90-harden-network.conf"
+    owner: root
+    group: root
+    mode: '0400'
+
+- name: Load hardened sysctl network configuration
+  become: true
+  command: sysctl -p /etc/sysctl.d/90-harden-network.conf
+
+- name: Copy modprobe blacklist
+  become: true
+  copy:
+    src: "blacklist.conf"
+    dest: "/etc/modprobe.d/blacklist.conf"
+    owner: root
+    group: root
+    mode: '0400'
